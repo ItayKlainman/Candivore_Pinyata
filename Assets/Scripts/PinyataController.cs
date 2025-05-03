@@ -22,10 +22,10 @@ public class PinyataController : MonoBehaviour
         rb.AddForce(direction * force, ForceMode2D.Impulse);
 
         var damage = Mathf.Clamp(force, 5f, 25f); // Optional: scale damage based on swipe
-        TakeDamage(damage);
+        TakeDamage(damage, direction);
     }
 
-    private void TakeDamage(float amount)
+    private void TakeDamage(float amount, Vector2 direction)
     {
         currentHealth -= amount;
         healthBar.value = currentHealth / maxHealth;
@@ -35,7 +35,7 @@ public class PinyataController : MonoBehaviour
 
         // TODO: Play hit FX, sound, shake, squash/stretch here
         
-        PlayHitEffect();
+        PlayHitEffect(direction);
 
         if (currentHealth <= 0)
         {
@@ -43,10 +43,10 @@ public class PinyataController : MonoBehaviour
         }
     }
 
-    private void PlayHitEffect()
+    private void PlayHitEffect(Vector2 dir)
     {
         transform.DOComplete();
-        transform.DOPunchScale(Vector3.one * 0.2f, 0.2f, 10, 1);
+        transform.DOPunchScale(dir * 0.2f, 0.2f, 10, 1);
     }
 
     private void BreakPinata()

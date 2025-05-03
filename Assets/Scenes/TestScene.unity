@@ -1584,7 +1584,7 @@ MonoBehaviour:
   rb: {fileID: 1292659144}
   forceMultiplier: 10
   healthBar: {fileID: 454971406}
-  maxHealth: 100
+  maxHealth: 1000
 --- !u!1 &1385253308
 GameObject:
   m_ObjectHideFlags: 0
