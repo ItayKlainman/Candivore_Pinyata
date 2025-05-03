@@ -1,7 +1,5 @@
 using UnityEngine;
 
-namespace Input
-{
     public class SwipeInput : MonoBehaviour
     {
         public float minSwipeDistance = 50f;
@@ -56,4 +54,3 @@ namespace Input
             }
         }
     }
-}

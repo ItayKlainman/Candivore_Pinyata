@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,10 +11,18 @@ public class PinyataController : MonoBehaviour
     
     [SerializeField] private float maxHealth = 100f;
     private float currentHealth;
+    public Action onBrokenCallback;
 
     private void Start()
     {
         currentHealth = maxHealth;
+    }
+    
+    public void Initialize(float maxHP, Action onBroken)
+    {
+        maxHealth = maxHP;
+        currentHealth = maxHP;
+        onBrokenCallback = onBroken;
     }
 
     public void OnSwipe(Vector2 direction, float swipeStrength)
@@ -29,9 +38,6 @@ public class PinyataController : MonoBehaviour
     {
         currentHealth -= amount;
         healthBar.value = currentHealth / maxHealth;
-        
-        if (currentHealth <= 0)
-            BreakPinata();
 
         // TODO: Play hit FX, sound, shake, squash/stretch here
         
