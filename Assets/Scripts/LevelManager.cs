@@ -53,9 +53,12 @@ public class LevelManager : MonoBehaviour
     public void StartLevel()
     {
         Debug.Log($"Starting Level {currentLevel}");
-
-        float hp = baseHP + (currentLevel * hpMultiplier);
-        float timeLimit = baseTime + (currentLevel * timePerLevel);
+        
+        var levelBonus = Mathf.FloorToInt(currentLevel / 3f); // every 3 levels = +1 coin
+        PlayerStatsManager.Instance.stats.coinsPerHit += levelBonus;
+        
+        var hp = baseHP + (currentLevel * hpMultiplier);
+        var timeLimit = baseTime + (currentLevel * timePerLevel);
 
         currentPinata = Instantiate(pinataPrefab, pinataSpawnPoint.position, Quaternion.identity);
         currentPinataHP = hp;

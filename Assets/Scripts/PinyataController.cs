@@ -2,14 +2,16 @@ using System;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class PinyataController : MonoBehaviour
 {
-    public Rigidbody2D rb;
-    [SerializeField] private float forceMultiplier = 10f;
-    [SerializeField] private Slider healthBar;
+    [SerializeField] private Rigidbody2D rb;
     
+    [SerializeField] private float forceMultiplier = 10f;
     [SerializeField] private float maxHealth = 100f;
+    [SerializeField] private Slider healthBar;
+
     private float currentHealth;
     public Action onBrokenCallback;
 
@@ -27,10 +29,22 @@ public class PinyataController : MonoBehaviour
 
     public void OnSwipe(Vector2 direction, float swipeStrength)
     {
+        var stats = PlayerStatsManager.Instance.stats;
+        
+        var damage = stats.damagePerSwipe;
+        var isCrit = Random.value < stats.critChance;
+
+        if (isCrit)
+        {
+            damage *= stats.critMultiplier; 
+            // show crit FX here
+        }
+
         var force = swipeStrength * 0.01f * forceMultiplier;
         rb.AddForce(direction * force, ForceMode2D.Impulse);
 
-        var damage = Mathf.Clamp(force, 5f, 25f); // Optional: scale damage based on swipe
+        PlayerStatsManager.Instance.AddCoins(stats.coinsPerHit);
+
         TakeDamage(damage, direction);
     }
 
@@ -52,12 +66,14 @@ public class PinyataController : MonoBehaviour
     private void PlayHitEffect(Vector2 dir)
     {
         transform.DOComplete();
-        transform.DOPunchScale(dir * 0.2f, 0.2f, 10, 1);
+        transform.DOPunchScale(dir * 0.2f, 0.2f);
     }
 
     private void BreakPinata()
     {
         Debug.Log("PINATA BROKEN!");
+        onBrokenCallback?.Invoke();
+        
         // TODO: Play explosion, give rewards, transition to next level
     }
 }
