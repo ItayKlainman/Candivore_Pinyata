@@ -9,6 +9,7 @@ public class UpgradeUIManager : MonoBehaviour
     [SerializeField] private  Button damageButton;
     [SerializeField] private  Button critButton;
     [SerializeField] private  Button coinButton;
+    [SerializeField] private Button continueButton;
     
     [SerializeField] private  TextMeshProUGUI coinsText;
     [SerializeField] private  TextMeshProUGUI damageCostText;
@@ -22,6 +23,8 @@ public class UpgradeUIManager : MonoBehaviour
         damageButton.onClick.AddListener(() => TryUpgrade(UpgradeType.Damage));
         critButton.onClick.AddListener(() => TryUpgrade(UpgradeType.CritChance));
         coinButton.onClick.AddListener(() => TryUpgrade(UpgradeType.CoinValue));
+        continueButton.onClick.AddListener(HandleContinue);
+
     }
 
     void OnDisable()
@@ -41,7 +44,7 @@ public class UpgradeUIManager : MonoBehaviour
     {
         int cost = PlayerStatsManager.Instance.stats.GetUpgradeCost(type);
         PlayerStatsManager.Instance.ApplyUpgrade(type, cost);
-        UpdateUI(); // Refresh coin count and costs
+        UpdateUI();
     }
 
     void UpdateUI()
@@ -52,5 +55,11 @@ public class UpgradeUIManager : MonoBehaviour
         damageCostText.text = $"Upgrade Damage ({stats.GetUpgradeCost(UpgradeType.Damage)}c)";
         critCostText.text = $"Upgrade Crit ({stats.GetUpgradeCost(UpgradeType.CritChance)}c)";
         coinCostText.text = $"Upgrade Coins ({stats.GetUpgradeCost(UpgradeType.CoinValue)}c)";
+    }
+    
+    void HandleContinue()
+    {
+        GameStateManager.Instance.SetGameState(GameState.Start);
+        upgradePanel.SetActive(false);
     }
 }

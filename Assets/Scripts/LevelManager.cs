@@ -3,14 +3,17 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
-    public GameObject pinataPrefab;
-    public Transform pinataSpawnPoint;
-    public float baseHP = 100f;
-    public float hpMultiplier = 1.5f;
-    public float baseTime = 10f;
-    public float timePerLevel = 2f;
+    [SerializeField] private GameObject pinataPrefab;
+    [SerializeField] private Transform pinataSpawnPoint;
 
-    public TextMeshProUGUI timerText;
+    [SerializeField] private GameObject upgradeStore;
+    
+    [SerializeField] private float baseHP = 100f;
+    [SerializeField] private float hpMultiplier = 1.5f;
+    [SerializeField] private float baseTime = 10f;
+    [SerializeField] private float timePerLevel = 2f;
+
+    [SerializeField] private TextMeshProUGUI timerText;
 
     private GameObject currentPinata;
     private float currentTime;
@@ -18,12 +21,12 @@ public class LevelManager : MonoBehaviour
     private int currentLevel = 1;
     private bool isLevelRunning = false;
 
-    private void OnEnable()
+    private void Awake()
     {
         GameStateManager.Instance.OnGameStateChanged += OnGameStateChanged;
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         GameStateManager.Instance.OnGameStateChanged -= OnGameStateChanged;
     }
@@ -61,6 +64,7 @@ public class LevelManager : MonoBehaviour
         var timeLimit = baseTime + (currentLevel * timePerLevel);
 
         currentPinata = Instantiate(pinataPrefab, pinataSpawnPoint.position, Quaternion.identity);
+        currentPinata.gameObject.SetActive(true);
         currentPinataHP = hp;
         currentTime = timeLimit;
         isLevelRunning = true;
@@ -82,7 +86,8 @@ public class LevelManager : MonoBehaviour
 
         isLevelRunning = false;
         Destroy(currentPinata);
-        GameStateManager.Instance.SetGameState(GameState.Ended);
+        GameStateManager.Instance.SetGameState(GameState.Upgrading);
+      //  upgradeStore.SetActive(true);
     }
 
     private void UpdateTimerUI()

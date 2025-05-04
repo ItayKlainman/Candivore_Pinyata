@@ -2,6 +2,7 @@ using UnityEngine;
 
 public enum GameState
 {
+    Menu,
     Start,
     Playing,
     Ended,
@@ -28,12 +29,7 @@ public class GameStateManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
-    private void Start()
-    {
-        SetGameState(GameState.Start);
-    }
-
+    
     public void SetGameState(GameState newState)
     {
         if (newState == CurrentState) return;
