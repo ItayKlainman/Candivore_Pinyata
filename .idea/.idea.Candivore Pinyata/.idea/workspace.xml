@@ -7,8 +7,10 @@
     <list default="true" id="c4be34af-ede2-4008-92ce-c01ebb46d480" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Candivore Pinyata/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Candivore Pinyata/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/MainScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MainScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MainMenuUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/MainMenuUI.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UpgradeUIManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UpgradeUIManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/LevelManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/LevelManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PinyataController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PinyataController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/SwipeInput.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/SwipeInput.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TextMesh Pro/Examples &amp; Extras/Resources/Fonts &amp; Materials/Roboto-Bold SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TextMesh Pro/Examples &amp; Extras/Resources/Fonts &amp; Materials/Roboto-Bold SDF.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -120,7 +122,7 @@
       <updated>1746268193709</updated>
       <workItem from="1746268197592" duration="29000" />
       <workItem from="1746269247759" duration="4800000" />
-      <workItem from="1746291400726" duration="10869000" />
+      <workItem from="1746291400726" duration="14254000" />
     </task>
     <servers />
   </component>
@@ -153,17 +155,43 @@
           <option name="timeStamp" value="3" />
         </breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/UpgradeUIManager.cs</url>
-          <line>20</line>
-          <properties documentPath="E:\Projects\Unity Projects\Candivore Pinyata\Assets\Scripts\UpgradeUIManager.cs" containingFunctionPresentation="Method 'OnEnable'">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/LevelManager.cs</url>
+          <line>105</line>
+          <properties documentPath="E:\Projects\Unity Projects\Candivore Pinyata\Assets\Scripts\LevelManager.cs" containingFunctionPresentation="Method 'OnPinataHit'">
             <startOffsets>
-              <option value="650" />
+              <option value="3149" />
             </startOffsets>
             <endOffsets>
-              <option value="717" />
+              <option value="3184" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="22" />
+          <option name="timeStamp" value="27" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/LevelManager.cs</url>
+          <line>106</line>
+          <properties documentPath="E:\Projects\Unity Projects\Candivore Pinyata\Assets\Scripts\LevelManager.cs" containingFunctionPresentation="Method 'OnPinataHit'">
+            <startOffsets>
+              <option value="3193" />
+            </startOffsets>
+            <endOffsets>
+              <option value="3237" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="28" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/PinyataController.cs</url>
+          <line>77</line>
+          <properties documentPath="E:\Projects\Unity Projects\Candivore Pinyata\Assets\Scripts\PinyataController.cs" containingFunctionPresentation="Method 'BreakPinata'">
+            <startOffsets>
+              <option value="1909" />
+            </startOffsets>
+            <endOffsets>
+              <option value="1936" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="29" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

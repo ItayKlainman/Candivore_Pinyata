@@ -1,7 +1,6 @@
 using System;
 using DG.Tweening;
 using UnityEngine;
-using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class PinyataController : MonoBehaviour
@@ -10,9 +9,12 @@ public class PinyataController : MonoBehaviour
     
     [SerializeField] private float forceMultiplier = 10f;
     [SerializeField] private float maxHealth = 100f;
-    [SerializeField] private Slider healthBar;
-
+    
+    public delegate void PinyataHit(float currentHp, float maxHp);
+    public event PinyataHit OnPinyataHit;
+    
     private float currentHealth;
+    
     public Action onBrokenCallback;
 
     private void Start()
@@ -51,8 +53,9 @@ public class PinyataController : MonoBehaviour
     private void TakeDamage(float amount, Vector2 direction)
     {
         currentHealth -= amount;
-        healthBar.value = currentHealth / maxHealth;
-
+        
+        OnPinyataHit?.Invoke(currentHealth, maxHealth);
+        
         // TODO: Play hit FX, sound, shake, squash/stretch here
         
         PlayHitEffect(direction);

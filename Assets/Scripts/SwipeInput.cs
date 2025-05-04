@@ -3,10 +3,17 @@ using UnityEngine;
 public class SwipeInput : MonoBehaviour
 {
     public float minSwipeDistance = 50f;
-    public PinyataController pinataController;
 
     private Vector2 startTouch;
     private bool isSwiping = false;
+
+    private PinyataController pinataController;
+
+
+    public void Initialize(PinyataController pinata)
+    {
+        pinataController = pinata;
+    }
 
     private void Update()
     {
@@ -19,13 +26,13 @@ public class SwipeInput : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            startTouch = UnityEngine.Input.mousePosition;
+            startTouch = Input.mousePosition;
             isSwiping = true;
         }
 
-        if (UnityEngine.Input.GetMouseButtonUp(0) && isSwiping)
+        if (Input.GetMouseButtonUp(0) && isSwiping)
         {
-            Vector2 endTouch = UnityEngine.Input.mousePosition;
+            Vector2 endTouch = Input.mousePosition;
             ProcessSwipe(endTouch);
             isSwiping = false;
         }
