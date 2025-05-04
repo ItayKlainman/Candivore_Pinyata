@@ -16,6 +16,11 @@ public class UpgradeUIManager : MonoBehaviour
     [SerializeField] private  TextMeshProUGUI critCostText;
     [SerializeField] private  TextMeshProUGUI coinCostText;
 
+    [SerializeField] private TextMeshProUGUI currentDamageLevelText;
+    [SerializeField] private TextMeshProUGUI currentCritLevelText;
+    [SerializeField] private TextMeshProUGUI CurrentCoinsBonusLevelText;
+    
+
     private void OnEnable()
     {
         GameStateManager.Instance.OnGameStateChanged += OnGameStateChanged;
@@ -52,9 +57,13 @@ public class UpgradeUIManager : MonoBehaviour
         var stats = PlayerStatsManager.Instance.stats;
 
         coinsText.text = $"Coins: {stats.totalCoins}";
-        damageCostText.text = $"Upgrade Damage ({stats.GetUpgradeCost(UpgradeType.Damage)}c)";
-        critCostText.text = $"Upgrade Crit ({stats.GetUpgradeCost(UpgradeType.CritChance)}c)";
-        coinCostText.text = $"Upgrade Coins ({stats.GetUpgradeCost(UpgradeType.CoinValue)}c)";
+        damageCostText.text = $"Upgrade Damage ({stats.GetUpgradeCost(UpgradeType.Damage)})";
+        critCostText.text = $"Upgrade Crit ({stats.GetUpgradeCost(UpgradeType.CritChance)})";
+        coinCostText.text = $"Upgrade Coins ({stats.GetUpgradeCost(UpgradeType.CoinValue)})";
+        
+        currentDamageLevelText.SetText($"Lv.{stats.damageLevel}");
+        currentCritLevelText.SetText($"Lv.{stats.critLevel}");
+        CurrentCoinsBonusLevelText.SetText($"Lv.{stats.coinLevel}");
     }
 
     private void HandleContinue()

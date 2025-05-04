@@ -122,7 +122,6 @@ public class LevelManager : MonoBehaviour
         isLevelRunning = false;
         Destroy(currentPinataController.gameObject);
         GameStateManager.Instance.SetGameState(GameState.Upgrading);
-      //  upgradeStore.SetActive(true);
     }
 
     private void UpdateTimerUI()
