@@ -6,9 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="c4be34af-ede2-4008-92ce-c01ebb46d480" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Candivore Pinyata/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Candivore Pinyata/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MainScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MainScene.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/UpgradeUIManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UpgradeUIManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/TextMesh Pro/Examples &amp; Extras/Resources/Fonts &amp; Materials/Roboto-Bold SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TextMesh Pro/Examples &amp; Extras/Resources/Fonts &amp; Materials/Roboto-Bold SDF.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -120,7 +118,7 @@
       <updated>1746268193709</updated>
       <workItem from="1746268197592" duration="29000" />
       <workItem from="1746269247759" duration="4800000" />
-      <workItem from="1746291400726" duration="15112000" />
+      <workItem from="1746291400726" duration="15859000" />
     </task>
     <servers />
   </component>
@@ -152,18 +150,24 @@
           <properties exception="System.Threading.ThreadAbortException" breakIfHandledByOtherCode="false" displayValue="System.Threading.ThreadAbortException" />
           <option name="timeStamp" value="3" />
         </breakpoint>
+        <breakpoint enabled="true" type="DotNet_Exception_Breakpoints">
+          <properties exception="System.NullReferenceException" breakIfHandledByUserCode="true" breakIfUnhandled="false" isInternal="false" displayValue="NullReferenceException" namespaceName="System">
+            <option name="internal" value="false" />
+          </properties>
+          <option name="timeStamp" value="36" />
+        </breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/UpgradeUIManager.cs</url>
-          <line>41</line>
-          <properties documentPath="E:\Projects\Unity Projects\Candivore Pinyata\Assets\Scripts\UpgradeUIManager.cs" containingFunctionPresentation="Method 'OnGameStateChanged'">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/LevelManager.cs</url>
+          <line>123</line>
+          <properties documentPath="E:\Projects\Unity Projects\Candivore Pinyata\Assets\Scripts\LevelManager.cs" containingFunctionPresentation="Method 'EndLevel'">
             <startOffsets>
-              <option value="1433" />
+              <option value="3608" />
             </startOffsets>
             <endOffsets>
-              <option value="1489" />
+              <option value="3668" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="35" />
+          <option name="timeStamp" value="37" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -29,7 +29,6 @@ public class UpgradeUIManager : MonoBehaviour
         critButton.onClick.AddListener(() => TryUpgrade(UpgradeType.CritChance));
         coinButton.onClick.AddListener(() => TryUpgrade(UpgradeType.CoinValue));
         continueButton.onClick.AddListener(HandleContinue);
-
     }
 
     private void OnDisable()
