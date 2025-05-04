@@ -7,6 +7,8 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] private Button playButton;
     [SerializeField] private Button optionsButton;
     [SerializeField] private Button quitButton;
+    
+    [SerializeField] private GameObject upgradePanel;
 
     void Start()
     {
@@ -18,6 +20,7 @@ public class MainMenuUI : MonoBehaviour
     void OnPlayClicked()
     {
         mainMenuPanel.SetActive(false);
+        upgradePanel.SetActive(true);
         GameStateManager.Instance.SetGameState(GameState.Start);
     }
 

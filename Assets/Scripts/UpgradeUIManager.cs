@@ -16,7 +16,7 @@ public class UpgradeUIManager : MonoBehaviour
     [SerializeField] private  TextMeshProUGUI critCostText;
     [SerializeField] private  TextMeshProUGUI coinCostText;
 
-    void OnEnable()
+    private void OnEnable()
     {
         GameStateManager.Instance.OnGameStateChanged += OnGameStateChanged;
 
@@ -27,12 +27,12 @@ public class UpgradeUIManager : MonoBehaviour
 
     }
 
-    void OnDisable()
+    private void OnDisable()
     {
         GameStateManager.Instance.OnGameStateChanged -= OnGameStateChanged;
     }
 
-    void OnGameStateChanged(GameState newState)
+    private void OnGameStateChanged(GameState newState)
     {
         upgradePanel.SetActive(newState == GameState.Upgrading);
 
@@ -40,14 +40,14 @@ public class UpgradeUIManager : MonoBehaviour
             UpdateUI();
     }
 
-    void TryUpgrade(UpgradeType type)
+    private void TryUpgrade(UpgradeType type)
     {
-        int cost = PlayerStatsManager.Instance.stats.GetUpgradeCost(type);
+        var cost = PlayerStatsManager.Instance.stats.GetUpgradeCost(type);
         PlayerStatsManager.Instance.ApplyUpgrade(type, cost);
         UpdateUI();
     }
 
-    void UpdateUI()
+    private void UpdateUI()
     {
         var stats = PlayerStatsManager.Instance.stats;
 
@@ -56,8 +56,8 @@ public class UpgradeUIManager : MonoBehaviour
         critCostText.text = $"Upgrade Crit ({stats.GetUpgradeCost(UpgradeType.CritChance)}c)";
         coinCostText.text = $"Upgrade Coins ({stats.GetUpgradeCost(UpgradeType.CoinValue)}c)";
     }
-    
-    void HandleContinue()
+
+    private void HandleContinue()
     {
         GameStateManager.Instance.SetGameState(GameState.Start);
         upgradePanel.SetActive(false);
