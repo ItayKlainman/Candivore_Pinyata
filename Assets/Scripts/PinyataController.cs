@@ -45,8 +45,9 @@ public class PinyataController : MonoBehaviour
         if (isCrit)
         {
             damage *= stats.critMultiplier;
-            // show crit FX here
         }
+        
+        ShowTextEffect(damage, isCrit);
 
         var force = swipeStrength * 0.01f * forceMultiplier;
         rb.AddForce(direction * force, ForceMode2D.Impulse);
@@ -55,6 +56,15 @@ public class PinyataController : MonoBehaviour
         SpawnCoins(stats.coinsPerHit);
 
         TakeDamage(damage, direction);
+    }
+
+    private void ShowTextEffect(float damage, bool isCrit)
+    {
+        Vector3 spawnPos = transform.position + new Vector3(Random.Range(-0.5f, 0.5f), 1f, 0f);
+        var floatText = ObjectPool.Instance.GetFromPool("Text", spawnPos, Quaternion.identity);
+        floatText.GetComponent<FloatingText>()?.Show(damage.ToString("F0"), isCrit ? Color.red : Color.white,
+            spawnPos
+        );
     }
 
     private void TakeDamage(float amount, Vector2 direction)
@@ -87,8 +97,6 @@ public class PinyataController : MonoBehaviour
         Debug.Log("PINATA BROKEN!");
         SpawnCoins(coinsOnBreak);
         onBrokenCallback?.Invoke();
-
-        // TODO: Play explosion, give rewards, transition to next level
     }
 
     private void SpawnCoins(int amount)
