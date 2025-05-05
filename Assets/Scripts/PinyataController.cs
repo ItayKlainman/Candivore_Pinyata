@@ -52,7 +52,7 @@ public class PinyataController : MonoBehaviour
         rb.AddForce(direction * force, ForceMode2D.Impulse);
 
         PlayerStatsManager.Instance.AddCoins(stats.coinsPerHit);
-        SpawnCoins(coinsOnHit);
+        SpawnCoins(stats.coinsPerHit);
 
         TakeDamage(damage, direction);
     }
@@ -93,19 +93,23 @@ public class PinyataController : MonoBehaviour
 
     private void SpawnCoins(int amount)
     {
-        if (coinPrefab == null || coinSpawnPoint == null)
+        coinSpawnPoint = transform;
+        
+        if (coinSpawnPoint == null)
         {
             Debug.LogWarning("Missing coin prefab or spawn point.");
             return;
         }
 
+        var pool = ObjectPool.Instance;
         for (int i = 0; i < amount; i++)
         {
-            GameObject coin = Instantiate(coinPrefab, coinSpawnPoint.position, Quaternion.identity);
-            Rigidbody2D coinRB = coin.GetComponent<Rigidbody2D>();
+            var coin = pool.GetFromPool("Coin", coinSpawnPoint.position, Quaternion.identity);
+            var coinRB = coin.GetComponent<Rigidbody2D>();
+            
             if (coinRB != null)
             {
-                Vector2 randomForce = new Vector2(
+                var randomForce = new Vector2(
                     Random.Range(-coinScatterForce.x, coinScatterForce.x),
                     Random.Range(coinScatterForce.y / 2f, coinScatterForce.y)
                 );

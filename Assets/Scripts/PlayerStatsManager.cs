@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerStatsManager : MonoBehaviour
@@ -5,6 +6,8 @@ public class PlayerStatsManager : MonoBehaviour
     public static PlayerStatsManager Instance;
 
     public PlayerStats stats = new PlayerStats();
+    
+    public static event Action<int> OnCoinsChanged;
 
     void Awake()
     {
@@ -22,6 +25,7 @@ public class PlayerStatsManager : MonoBehaviour
     public void AddCoins(int amount)
     {
         stats.totalCoins += amount;
+        OnCoinsChanged?.Invoke(stats.totalCoins);
     }
 
     public bool TrySpendCoins(int cost)
@@ -29,6 +33,7 @@ public class PlayerStatsManager : MonoBehaviour
         if (stats.totalCoins >= cost)
         {
             stats.totalCoins -= cost;
+            OnCoinsChanged?.Invoke(stats.totalCoins);
             return true;
         }
         return false;

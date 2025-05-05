@@ -23,6 +23,9 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private Slider healthBar;
     [SerializeField] private TextMeshProUGUI _healthText;
     
+    [Header("COINS UI")] [SerializeField]
+    private CoinUIController coinUIController;
+    
     [Header("HEALTH PACK SETTINGS")]
     [SerializeField] private GameObject healthPackPrefab;
     [SerializeField] private Transform[] healthPackSpawnPoints;
@@ -43,7 +46,6 @@ public class LevelManager : MonoBehaviour
     {
         GameStateManager.Instance.OnGameStateChanged += OnGameStateChanged;
         HealthPack.OnHealthPackTouched += HealPinata;
-
     }
 
     private void OnDestroy()
@@ -78,11 +80,11 @@ public class LevelManager : MonoBehaviour
     {
         Debug.Log($"Starting Level {currentLevel}");
 
+        isLevelRunning = true;
         var levelBonus = Mathf.FloorToInt(currentLevel / 3f); // every 3 levels = +1 coin
         PlayerStatsManager.Instance.stats.coinsPerHit += levelBonus;
+        coinUIController.gameObject.SetActive(true);
 
-        isLevelRunning = true;
-        
         var pinataHP = baseHP + (currentLevel * hpMultiplier);
         var timeLimit = baseTime + (currentLevel * timePerLevel);
 
@@ -170,7 +172,6 @@ public class LevelManager : MonoBehaviour
 
     private void OnPinataBroken()
     {
-        Debug.Log("Pinata defeated!");
         EndLevel();
     }
 
@@ -200,8 +201,13 @@ public class LevelManager : MonoBehaviour
 
     private void UpdateTimerUI()
     {
-        if (timerText != null)
-            timerText.text = Mathf.CeilToInt(currentTime).ToString();
+        if (timerText == null) return;
+
+        int totalSeconds = Mathf.CeilToInt(currentTime);
+        int minutes = totalSeconds / 60;
+        int seconds = totalSeconds % 60;
+
+        timerText.text = $"{minutes:00}:{seconds:00}";
     }
 
     public void NextLevel()
