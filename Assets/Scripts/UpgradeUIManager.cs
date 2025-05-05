@@ -20,8 +20,7 @@ public class UpgradeUIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI currentCritLevelText;
     [SerializeField] private TextMeshProUGUI CurrentCoinsBonusLevelText;
     
-
-    private void OnEnable()
+    public void Initialize()
     {
         GameStateManager.Instance.OnGameStateChanged += OnGameStateChanged;
 

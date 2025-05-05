@@ -14,6 +14,9 @@ public class GameStateManager : MonoBehaviour
     public static GameStateManager Instance;
     private GameState CurrentState { get; set; }
 
+    [SerializeField] private LevelManager levelManager;
+    [SerializeField] private UpgradeUIManager upgradeUIManager;
+    
     public delegate void GameStateChanged(GameState newState);
     public event GameStateChanged OnGameStateChanged;
 
@@ -23,13 +26,20 @@ public class GameStateManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            Initialize();
         }
         else
         {
             Destroy(gameObject);
         }
     }
-    
+
+    private void Initialize()
+    {
+        levelManager.Initialize();
+        upgradeUIManager.Initialize();
+    }
+
     public void SetGameState(GameState newState)
     {
         if (newState == CurrentState) return;

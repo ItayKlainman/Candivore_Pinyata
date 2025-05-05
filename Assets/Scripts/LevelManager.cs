@@ -28,7 +28,7 @@ public class LevelManager : MonoBehaviour
     private int currentLevel = 1;
     private bool isLevelRunning = false;
 
-    private void Awake()
+    public void Initialize()
     {
         GameStateManager.Instance.OnGameStateChanged += OnGameStateChanged;
     }
