@@ -31,7 +31,8 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private int maxHealthPacksPerLevel = 2;
 
     private Coroutine healthPackRoutine;
-    
+
+    private List<GameObject> healthPacks;
     private PinyataController currentPinataController;
     private float currentTime;
     private float currentPinataHP;
@@ -125,7 +126,7 @@ public class LevelManager : MonoBehaviour
     private IEnumerator HealthPackSpawner()
     {
         var spawnedCount = 0;
-
+        healthPacks = new List<GameObject>();
         
         while (isLevelRunning && spawnedCount < maxHealthPacksPerLevel)
         {
@@ -138,6 +139,7 @@ public class LevelManager : MonoBehaviour
             var spawnPos = healthPackSpawnPoints[index].position;
 
            var pack = Instantiate(healthPackPrefab, spawnPos, Quaternion.identity);
+           healthPacks.Add(pack);
 
             spawnedCount++;
         }
@@ -170,6 +172,12 @@ public class LevelManager : MonoBehaviour
             StopCoroutine(healthPackRoutine);
             healthPackRoutine = null;
         }
+
+        foreach (var healthPack in healthPacks)
+        {
+            Destroy(healthPack);
+        }
+        healthPacks.Clear();
         
         currentPinataController.OnPinyataHit -= OnPinataControllerHit;
 
