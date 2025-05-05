@@ -59,6 +59,13 @@ public class SwipeInput : MonoBehaviour
     private void ProcessSwipe(Vector2 endTouch)
     {
         var swipeDelta = endTouch - startTouch;
+        
+        var hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+        
+        if (hit.collider != null && hit.collider.CompareTag("HealthPack"))
+        {
+            hit.collider.GetComponent<HealthPack>()?.TriggerHeal();
+        }
 
         if (swipeDelta.magnitude > minSwipeDistance)
         {

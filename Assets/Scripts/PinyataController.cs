@@ -65,6 +65,12 @@ public class PinyataController : MonoBehaviour
             BreakPinata();
         }
     }
+    
+    public void Heal(float amount)
+    {
+        currentHealth = Mathf.Min(maxHealth, currentHealth + amount);
+        OnPinyataHit?.Invoke(currentHealth, maxHealth);
+    }
 
     private void PlayHitEffect(Vector2 dir)
     {
