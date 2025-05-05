@@ -1,14 +1,21 @@
+
 using UnityEngine;
 
 public class SwipeInput : MonoBehaviour
 {
     public float minSwipeDistance = 50f;
+    public LayerMask swipeableLayers;
 
     private Vector2 startTouch;
     private bool isSwiping = false;
 
     private PinyataController pinataController;
+    private Camera _camera;
 
+    private void Start()
+    {
+        _camera = Camera.main;
+    }
 
     public void Initialize(PinyataController pinata)
     {
@@ -18,12 +25,9 @@ public class SwipeInput : MonoBehaviour
     private void Update()
     {
         if (!GameStateManager.Instance.IsState(GameState.Playing))
-        {
             return;
-        }
-        
-#if UNITY_EDITOR
 
+#if UNITY_EDITOR
         if (Input.GetMouseButtonDown(0))
         {
             startTouch = Input.mousePosition;
@@ -59,18 +63,26 @@ public class SwipeInput : MonoBehaviour
     private void ProcessSwipe(Vector2 endTouch)
     {
         var swipeDelta = endTouch - startTouch;
-        
-        var hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-        
-        if (hit.collider != null && hit.collider.CompareTag("HealthPack"))
-        {
-            hit.collider.GetComponent<HealthPack>()?.TriggerHeal();
-        }
 
-        if (swipeDelta.magnitude > minSwipeDistance)
+        if (swipeDelta.magnitude < minSwipeDistance)
+            return;
+
+        Vector2 startWorld = _camera.ScreenToWorldPoint(startTouch);
+        Vector2 endWorld = _camera.ScreenToWorldPoint(endTouch);
+        
+        var swipeDirection = (endWorld - startWorld).normalized;
+        var hit = Physics2D.Linecast(startWorld, endWorld, swipeableLayers);
+
+        if (hit.collider != null)
         {
-            var swipeDir = swipeDelta.normalized;
-            pinataController.OnSwipe(swipeDir, swipeDelta.magnitude);
+            if (hit.collider.CompareTag("Pinata"))
+            {
+                pinataController?.OnSwipe(swipeDirection, swipeDelta.magnitude);
+            }
+            else if (hit.collider.CompareTag("HealthPack"))
+            {
+                hit.collider.GetComponent<HealthPack>()?.TriggerHeal();
+            }
         }
     }
 }

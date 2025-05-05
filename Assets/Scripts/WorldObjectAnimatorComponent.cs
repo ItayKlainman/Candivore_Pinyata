@@ -25,8 +25,21 @@ public class WorldObjectAnimatorComponent : MonoBehaviour
 {
     public List<WorldAnimationStep> animationSteps = new();
     public bool playOnStart = true;
+    public bool resetTransformOnReplay = true;
 
-    void Start()
+    private Vector3 originalPosition;
+    private Vector3 originalScale;
+    private Vector3 originalRotation;
+    private List<Tween> activeTweens = new();
+
+    void Awake()
+    {
+        originalPosition = transform.position;
+        originalScale = transform.localScale;
+        originalRotation = transform.eulerAngles;
+    }
+
+    void OnEnable()
     {
         if (playOnStart)
             Play();
@@ -34,6 +47,15 @@ public class WorldObjectAnimatorComponent : MonoBehaviour
 
     public void Play(System.Action onComplete = null)
     {
+        KillAllTweens();
+
+        if (resetTransformOnReplay)
+        {
+            transform.position = originalPosition;
+            transform.localScale = originalScale;
+            transform.eulerAngles = originalRotation;
+        }
+
         foreach (var step in animationSteps)
         {
             Tween tween = null;
@@ -58,17 +80,24 @@ public class WorldObjectAnimatorComponent : MonoBehaviour
                 tween.SetEase(step.ease).SetDelay(step.delay);
 
                 if (step.loop)
-                {
                     tween.SetLoops(-1, step.pingPong ? LoopType.Yoyo : LoopType.Restart);
-                    tween.Play();
-                }
-                else
-                {
-                    tween.Play();
-                }
+
+                tween.Play();
+                activeTweens.Add(tween);
             }
         }
 
         onComplete?.Invoke();
+    }
+
+    private void KillAllTweens()
+    {
+        foreach (var t in activeTweens)
+        {
+            if (t.IsActive())
+                t.Kill();
+        }
+
+        activeTweens.Clear();
     }
 }

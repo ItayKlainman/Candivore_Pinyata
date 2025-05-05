@@ -138,7 +138,7 @@ public class LevelManager : MonoBehaviour
             var index = Random.Range(0, healthPackSpawnPoints.Length);
             var spawnPos = healthPackSpawnPoints[index].position;
 
-           var pack = Instantiate(healthPackPrefab, spawnPos, Quaternion.identity);
+           var pack = ObjectPool.Instance.GetFromPool("HealthPack", spawnPos, Quaternion.identity);
            healthPacks.Add(pack);
 
             spawnedCount++;
@@ -175,7 +175,7 @@ public class LevelManager : MonoBehaviour
 
         foreach (var healthPack in healthPacks)
         {
-            Destroy(healthPack);
+            ObjectPool.Instance.ReturnToPool("HealthPack", healthPack);
         }
         healthPacks.Clear();
         

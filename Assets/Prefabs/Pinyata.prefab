@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 7636481417035693882}
   m_Layer: 0
   m_Name: Pinyata
-  m_TagString: Untagged
+  m_TagString: Pinata
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -190,4 +190,3 @@ MonoBehaviour:
   rb: {fileID: 4600653493930852405}
   forceMultiplier: 10
   maxHealth: 1000
-  healthBar: {fileID: 0}
