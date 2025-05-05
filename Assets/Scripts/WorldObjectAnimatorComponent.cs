@@ -26,11 +26,14 @@ public class WorldObjectAnimatorComponent : MonoBehaviour
     public List<WorldAnimationStep> animationSteps = new();
     public bool playOnStart = true;
     public bool resetTransformOnReplay = true;
+    public bool returnToPoolOnComplete = false;
+    public string poolKey;
 
     private Vector3 originalPosition;
     private Vector3 originalScale;
     private Vector3 originalRotation;
     private List<Tween> activeTweens = new();
+    private Sequence animationSequence;
 
     void Awake()
     {
@@ -51,10 +54,12 @@ public class WorldObjectAnimatorComponent : MonoBehaviour
 
         if (resetTransformOnReplay)
         {
-            transform.position = originalPosition;
+            //transform.position = originalPosition;
             transform.localScale = originalScale;
             transform.eulerAngles = originalRotation;
         }
+
+        animationSequence = DOTween.Sequence();
 
         foreach (var step in animationSteps)
         {
@@ -65,11 +70,9 @@ public class WorldObjectAnimatorComponent : MonoBehaviour
                 case WorldAnimationType.ScaleTo:
                     tween = transform.DOScale(step.targetVector, step.duration);
                     break;
-
                 case WorldAnimationType.MoveBy:
                     tween = transform.DOMove(transform.position + step.targetVector, step.duration);
                     break;
-
                 case WorldAnimationType.RotateTo:
                     tween = transform.DORotate(step.targetVector, step.duration, RotateMode.FastBeyond360);
                     break;
@@ -80,14 +83,30 @@ public class WorldObjectAnimatorComponent : MonoBehaviour
                 tween.SetEase(step.ease).SetDelay(step.delay);
 
                 if (step.loop)
+                {
                     tween.SetLoops(-1, step.pingPong ? LoopType.Yoyo : LoopType.Restart);
+                    tween.Play(); // don’t add to sequence if looping
+                }
+                else
+                {
+                    animationSequence.Join(tween);
+                }
 
-                tween.Play();
                 activeTweens.Add(tween);
             }
         }
 
-        onComplete?.Invoke();
+        animationSequence.OnComplete(() =>
+        {
+            onComplete?.Invoke();
+
+            if (returnToPoolOnComplete && !string.IsNullOrEmpty(poolKey))
+            {
+                ObjectPool.Instance?.ReturnToPool(poolKey, gameObject);
+            }
+        });
+
+        animationSequence.Play();
     }
 
     private void KillAllTweens()
@@ -99,5 +118,13 @@ public class WorldObjectAnimatorComponent : MonoBehaviour
         }
 
         activeTweens.Clear();
+
+        if (animationSequence != null && animationSequence.IsActive())
+        {
+            animationSequence.Kill();
+        }
+
+        animationSequence = null;
     }
+
 }

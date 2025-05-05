@@ -127,7 +127,7 @@ public class LevelManager : MonoBehaviour
     {
         var spawnedCount = 0;
         healthPacks = new List<GameObject>();
-        
+
         while (isLevelRunning && spawnedCount < maxHealthPacksPerLevel)
         {
             var delay = Random.Range(spawnMinDelay, spawnMaxDelay);
@@ -136,14 +136,25 @@ public class LevelManager : MonoBehaviour
             if (!isLevelRunning) yield break;
 
             var index = Random.Range(0, healthPackSpawnPoints.Length);
-            var spawnPos = healthPackSpawnPoints[index].position;
-
-           var pack = ObjectPool.Instance.GetFromPool("HealthPack", spawnPos, Quaternion.identity);
-           healthPacks.Add(pack);
-
+            var spawnPoint = healthPackSpawnPoints[index];
+            
+            yield return StartCoroutine(SpawnHealthPackNextFrame(spawnPoint));
             spawnedCount++;
         }
     }
+
+    private IEnumerator SpawnHealthPackNextFrame(Transform spawnPoint)
+    {
+        yield return null;
+
+        if (!isLevelRunning) yield break;
+        
+        var pack = ObjectPool.Instance.GetFromPool("HealthPack", spawnPoint.position, Quaternion.identity);
+        pack.transform.SetParent(spawnPoint);
+
+        healthPacks.Add(pack);
+    }
+
     
     private void InitHPBar(float startHP)
     {

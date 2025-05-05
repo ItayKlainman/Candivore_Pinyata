@@ -2699,6 +2699,9 @@ MonoBehaviour:
     loop: 1
     pingPong: 1
   playOnStart: 1
+  resetTransformOnReplay: 0
+  returnToPoolOnComplete: 0
+  poolKey: 
 --- !u!1 &977919694
 GameObject:
   m_ObjectHideFlags: 0
@@ -3091,9 +3094,9 @@ MonoBehaviour:
   _swipeInput: {fileID: 1978808785}
   pinataPrefab: {fileID: 8986618129916818272, guid: 90f520f7bc7b89e4298497990929e59b, type: 3}
   upgradeStore: {fileID: 330206684}
-  baseHP: 100
+  baseHP: 200
   hpMultiplier: 1.5
-  baseTime: 30
+  baseTime: 15
   timePerLevel: 2
   timerText: {fileID: 897508692}
   healthBar: {fileID: 454971406}
@@ -3102,9 +3105,9 @@ MonoBehaviour:
   healthPackSpawnPoints:
   - {fileID: 910456911}
   - {fileID: 1518852916}
-  spawnMinDelay: 1
-  spawnMaxDelay: 2
-  maxHealthPacksPerLevel: 50
+  spawnMinDelay: 3
+  spawnMaxDelay: 7
+  maxHealthPacksPerLevel: 4
 --- !u!4 &1279110963
 Transform:
   m_ObjectHideFlags: 0
@@ -3638,6 +3641,9 @@ MonoBehaviour:
     loop: 1
     pingPong: 1
   playOnStart: 1
+  resetTransformOnReplay: 1
+  returnToPoolOnComplete: 0
+  poolKey: 
 --- !u!1 &1575791405
 GameObject:
   m_ObjectHideFlags: 0
@@ -3797,8 +3803,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1654419254}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 198.8193, y: 299.5433, z: -0.75380373}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
