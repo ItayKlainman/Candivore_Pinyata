@@ -4,9 +4,9 @@ public enum FeedbackStrength { Light, Medium, Heavy }
 
 public static class FeedbackManager
 {
-    public static void Play(string soundName, FeedbackStrength strength, float volume = 1f, float pitchVar = 0.1f)
+    public static void Play(string soundName, FeedbackStrength strength, float volume = 1f, float pitchVar = 0.1f,bool isMusic = false)
     {
-        AudioManager.Instance.PlaySFX(soundName, volume, false, pitchVar);
+        AudioManager.Instance.PlaySFX(soundName, volume, isMusic, pitchVar);
 
         switch (strength)
         {
