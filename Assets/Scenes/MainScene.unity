@@ -1252,7 +1252,7 @@ MonoBehaviour:
   entries:
   - key: HealthPack
     prefab: {fileID: 261562961019252343, guid: 4c84a8a6372b9584b8b8efce71a1f90a, type: 3}
-    initialSize: 4
+    initialSize: 10
   - key: Coin
     prefab: {fileID: 6774027218137409274, guid: d8a8bb606fb728c4dbdd2d637a2ec8e1, type: 3}
     initialSize: 20
@@ -1901,9 +1901,9 @@ MonoBehaviour:
     coinsPerHit: 1
     critMultiplier: 2
     totalCoins: 0
-    damageLevel: 0
-    critLevel: 0
-    coinLevel: 0
+    damageLevel: 1
+    critLevel: 1
+    coinLevel: 1
     baseDamage: 10
     baseCritChance: 0.1
     baseCoins: 1

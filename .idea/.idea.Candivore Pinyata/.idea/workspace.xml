@@ -6,9 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="c4be34af-ede2-4008-92ce-c01ebb46d480" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Candivore Pinyata/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Candivore Pinyata/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MainScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MainScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Data/LevelConfig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Data/LevelConfig.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/LevelManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/LevelManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/TextMesh Pro/Examples &amp; Extras/Resources/Fonts &amp; Materials/Bangers SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TextMesh Pro/Examples &amp; Extras/Resources/Fonts &amp; Materials/Bangers SDF.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -130,7 +129,7 @@
       <workItem from="1746291400726" duration="15859000" />
       <workItem from="1746435525051" duration="18982000" />
       <workItem from="1746528812102" duration="79000" />
-      <workItem from="1746528910264" duration="2538000" />
+      <workItem from="1746528910264" duration="3277000" />
     </task>
     <servers />
   </component>
@@ -174,45 +173,6 @@
           </properties>
           <option name="timeStamp" value="48" />
         </breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/LevelManager.cs</url>
-          <line>129</line>
-          <properties documentPath="E:\Projects\Unity Projects\Candivore Pinyata\Assets\Scripts\LevelManager.cs" containingFunctionPresentation="Method 'SetLevelData'">
-            <startOffsets>
-              <option value="3968" />
-            </startOffsets>
-            <endOffsets>
-              <option value="4033" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="49" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/LevelManager.cs</url>
-          <line>120</line>
-          <properties documentPath="E:\Projects\Unity Projects\Candivore Pinyata\Assets\Scripts\LevelManager.cs" containingFunctionPresentation="Method 'SetLevelData'">
-            <startOffsets>
-              <option value="3616" />
-            </startOffsets>
-            <endOffsets>
-              <option value="3676" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="50" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/LevelManager.cs</url>
-          <line>119</line>
-          <properties documentPath="E:\Projects\Unity Projects\Candivore Pinyata\Assets\Scripts\LevelManager.cs" containingFunctionPresentation="Method 'SetLevelData'">
-            <startOffsets>
-              <option value="3500" />
-            </startOffsets>
-            <endOffsets>
-              <option value="3579" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="53" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

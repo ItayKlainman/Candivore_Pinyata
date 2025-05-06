@@ -13,7 +13,7 @@ public class LevelManager : MonoBehaviour
 
     [SerializeField] private GameObject pinataPrefab;
     [SerializeField] private GameObject upgradeStore;
-    
+
     [SerializeField] private float baseHP = 100f;
     [SerializeField] private float hpMultiplier = 1.5f;
     [SerializeField] private float baseTime = 10f;
@@ -22,19 +22,20 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI timerText;
     [SerializeField] private Slider healthBar;
     [SerializeField] private TextMeshProUGUI _healthText;
-    
-    [Header("COINS UI")] [SerializeField]
-    private CoinUIController coinUIController;
-    
-    [Header("HEALTH PACK SETTINGS")]
-    [SerializeField] private GameObject healthPackPrefab;
+
+    [Header("COINS UI")] [SerializeField] private CoinUIController coinUIController;
+
+    [Header("HEALTH PACK SETTINGS")] [SerializeField]
+    private GameObject healthPackPrefab;
+
     [SerializeField] private Transform[] healthPackSpawnPoints;
     [SerializeField] private float spawnMinDelay = 5f;
     [SerializeField] private float spawnMaxDelay = 10f;
     [SerializeField] private int maxHealthPacksPerLevel = 2;
-    
-    [Header("LEVEL CONFIG")]
-    [SerializeField] private LevelConfigDatabase levelDatabase;
+
+    [Header("LEVEL CONFIG")] [SerializeField]
+    private LevelConfigDatabase levelDatabase;
+
     [SerializeField] private Transform backgroundContainer;
     private GameObject currentBackgroundInstance;
 
@@ -88,12 +89,12 @@ public class LevelManager : MonoBehaviour
         coinUIController.gameObject.SetActive(true);
 
         var config = SetLevelData();
-        
+
         InitializePinata(config.pinataHP);
         _swipeInput?.Initialize(currentPinataController);
-        
+
         SetHealthPacks();
-        
+
         SetTimer(config);
 
         GameStateManager.Instance.SetGameState(GameState.Playing);
@@ -112,15 +113,15 @@ public class LevelManager : MonoBehaviour
         healthPackRoutine = StartCoroutine(HealthPackSpawner());
     }
 
+
     private LevelConfig SetLevelData()
     {
-        // Get current level config
         LevelConfig config = levelDatabase.GetLevel(GameStateManager.Instance.CurrentLevel - 1);
-        
-        var levelBonus = Mathf.FloorToInt(GameStateManager.Instance.CurrentLevel / 3f); // every 3 levels = +1 coin
+
+        var levelBonus = Mathf.FloorToInt(GameStateManager.Instance.CurrentLevel / 3f);
         PlayerStatsManager.Instance.stats.coinsPerHit += levelBonus;
 
-        // Spawn background
+        // Background
         if (currentBackgroundInstance != null)
             Destroy(currentBackgroundInstance);
 
@@ -129,6 +130,10 @@ public class LevelManager : MonoBehaviour
             currentBackgroundInstance = Instantiate(config.backgroundPrefab, backgroundContainer);
             currentBackgroundInstance.transform.localPosition = Vector3.zero;
         }
+
+        // NEW: Apply health pack timing
+        spawnMinDelay = config.healthPackMinDelay;
+        spawnMaxDelay = config.healthPackMaxDelay;
 
         return config;
     }
@@ -141,7 +146,7 @@ public class LevelManager : MonoBehaviour
         currentPinataController.Heal(amount);
         Debug.Log($"Pinata healed for {amount}!");
     }
-    
+
     private void InitializePinata(float hp)
     {
         var pinataGO = Instantiate(pinataPrefab, pinataSpawnPoint.position, Quaternion.identity);
@@ -155,7 +160,7 @@ public class LevelManager : MonoBehaviour
         currentPinataController.gameObject.SetActive(true);
         currentPinataController.OnPinyataHit += OnPinataControllerHit;
     }
-    
+
     private IEnumerator HealthPackSpawner()
     {
         var spawnedCount = 0;
@@ -170,7 +175,7 @@ public class LevelManager : MonoBehaviour
 
             var index = Random.Range(0, healthPackSpawnPoints.Length);
             var spawnPoint = healthPackSpawnPoints[index];
-            
+
             yield return StartCoroutine(SpawnHealthPackNextFrame(spawnPoint));
             spawnedCount++;
         }
@@ -181,14 +186,14 @@ public class LevelManager : MonoBehaviour
         yield return null;
 
         if (!isLevelRunning) yield break;
-        
+
         var pack = ObjectPool.Instance.GetFromPool("HealthPack", spawnPoint.position, Quaternion.identity);
         pack.transform.SetParent(spawnPoint);
 
         healthPacks.Add(pack);
     }
 
-    
+
     private void InitHPBar(float startHP)
     {
         healthBar.value = 1;
@@ -209,7 +214,7 @@ public class LevelManager : MonoBehaviour
     private void EndLevel()
     {
         if (!isLevelRunning) return;
-        
+
         GameStateManager.Instance.CurrentLevel++;
         PlayerStatsManager.Instance.SaveProgress();
 
@@ -223,13 +228,14 @@ public class LevelManager : MonoBehaviour
         {
             ObjectPool.Instance.ReturnToPool("HealthPack", healthPack);
         }
+
         healthPacks.Clear();
-        
+
         currentPinataController.OnPinyataHit -= OnPinataControllerHit;
 
         isLevelRunning = false;
         Destroy(currentPinataController.gameObject);
-        
+
         GameStateManager.Instance.SetGameState(GameState.Upgrading);
     }
 
