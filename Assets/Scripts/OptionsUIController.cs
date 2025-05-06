@@ -7,7 +7,7 @@ public class OptionsUIController : MonoBehaviour
 {
     [Header("UI")]
     [SerializeField] private GameObject optionsPanel;
-    [SerializeField] private RectTransform panelContent; // the animated child content (like a root group)
+    [SerializeField] private RectTransform panelContent;
     [SerializeField] private CanvasGroup panelCanvasGroup;
 
     [Header("Buttons")]
@@ -39,7 +39,7 @@ public class OptionsUIController : MonoBehaviour
         // Load haptics
         bool hapticsEnabled = PlayerPrefs.GetInt(HAPTICS_KEY, 1) == 1;
         hapticsToggle.isOn = hapticsEnabled;
-        // HapticsManager.HapticsEnabled = hapticsEnabled;
+        HapticsManager.HapticsEnabled = hapticsEnabled;
 
         // Listeners
         musicSlider.onValueChanged.AddListener(OnMusicVolumeChanged);
@@ -69,7 +69,7 @@ public class OptionsUIController : MonoBehaviour
 
     private void OnHapticsToggled(bool enabled)
     {
-        // HapticsManager.HapticsEnabled = enabled;
+        HapticsManager.HapticsEnabled = enabled;
         PlayerPrefs.SetInt(HAPTICS_KEY, enabled ? 1 : 0);
         PlayerPrefs.Save();
         PunchIcon(hapticsIcon);
