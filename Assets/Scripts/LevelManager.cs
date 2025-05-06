@@ -23,6 +23,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI timerText;
     [SerializeField] private Slider healthBar;
     [SerializeField] private TextMeshProUGUI _healthText;
+    [SerializeField] private TextMeshProUGUI levelCounter;
 
     [Header("COINS UI")] [SerializeField] private CoinUIController coinUIController;
 
@@ -93,7 +94,7 @@ public class LevelManager : MonoBehaviour
 
         isLevelRunning = true;
         coinUIController.gameObject.SetActive(true);
-
+        levelCounter.SetText($"Level {GameStateManager.Instance.CurrentLevel}");
         var config = SetLevelData();
 
         InitializePinata(config.pinataHP);

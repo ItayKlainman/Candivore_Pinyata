@@ -99,9 +99,9 @@ public class UpgradeUIManager : MonoBehaviour
         var stats = PlayerStatsManager.Instance.stats;
 
         coinsText.text = $"Coins: {stats.totalCoins}";
-        damageCostText.text = $"Upgrade Damage ({stats.GetUpgradeCost(UpgradeType.Damage)})";
-        critCostText.text = $"Upgrade Crit ({stats.GetUpgradeCost(UpgradeType.CritChance)})";
-        coinCostText.text = $"Upgrade Coins ({stats.GetUpgradeCost(UpgradeType.CoinValue)})";
+        damageCostText.text = $"{stats.GetUpgradeCost(UpgradeType.Damage)}";
+        critCostText.text = $"{stats.GetUpgradeCost(UpgradeType.CritChance)}";
+        coinCostText.text = $"{stats.GetUpgradeCost(UpgradeType.CoinValue)}";
 
         currentDamageLevelText.SetText($"Lv.{stats.damageLevel}");
         currentCritLevelText.SetText($"Lv.{stats.critLevel}");
