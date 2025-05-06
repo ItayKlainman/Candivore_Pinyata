@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -252,5 +253,25 @@ public class LevelManager : MonoBehaviour
         int seconds = totalSeconds % 60;
 
         timerText.text = $"{minutes:00}:{seconds:00}";
+
+        if (totalSeconds <= 5)
+        {
+            timerText.color = Color.red;
+
+            if (!DOTween.IsTweening(timerText.transform))
+            {
+                timerText.transform.DOKill(); // just in case
+                timerText.transform
+                    .DOScale(1.3f, 0.3f)
+                    .SetLoops(2, LoopType.Yoyo)
+                    .SetEase(Ease.OutBack);
+            }
+        }
+        else
+        {
+            timerText.color = Color.white;
+            timerText.transform.localScale = Vector3.one;
+        }
     }
+
 }
