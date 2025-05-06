@@ -3,16 +3,29 @@ using UnityEngine.Serialization;
 [System.Serializable]
 public class PlayerStats
 {
+// --- Live Stats (calculated from upgrade levels)
     public float damagePerSwipe = 10f;
     public float critChance = 0.1f;
-    public int coinsPerHit = 1; 
+    public int coinsPerHit = 1;
     public float critMultiplier = 2f;
 
+// --- Player Progress
     public int totalCoins = 0;
-    
-    public int damageLevel = 0;
-    public int critLevel = 0;
-    public int coinLevel = 0;
+
+// --- Upgrade Levels (saved/loaded)
+    public int damageLevel = 1;
+    public int critLevel = 1;
+    public int coinLevel = 1;
+
+// --- Upgrade Config Values 
+    public float baseDamage = 10f;
+    public float baseCritChance = 0.1f;
+    public int baseCoins = 1;
+
+    public float damageUpgradeStep = 2f;
+    public float critUpgradeStep = 0.05f;
+    public int coinUpgradeStep = 1;
+
 
     public int GetUpgradeCost(UpgradeType type)
     {
@@ -47,6 +60,14 @@ public class PlayerStats
                 break;
         }
     }
+
+    public void ApplyUpgradeLevels()
+    {
+        damagePerSwipe = baseDamage + (damageLevel - 1) * damageUpgradeStep;
+        critChance = baseCritChance + (critLevel - 1) * critUpgradeStep;
+        coinsPerHit = baseCoins + (coinLevel - 1) * coinUpgradeStep;
+    }
+
 }
 
 

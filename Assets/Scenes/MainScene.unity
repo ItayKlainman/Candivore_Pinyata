@@ -2243,6 +2243,12 @@ MonoBehaviour:
     damageLevel: 0
     critLevel: 0
     coinLevel: 0
+    baseDamage: 10
+    baseCritChance: 0.1
+    baseCoins: 1
+    damageUpgradeStep: 2
+    critUpgradeStep: 0.05
+    coinUpgradeStep: 1
 --- !u!1 &1978808784
 GameObject:
   m_ObjectHideFlags: 0

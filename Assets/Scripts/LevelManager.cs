@@ -178,6 +178,9 @@ public class LevelManager : MonoBehaviour
     private void EndLevel()
     {
         if (!isLevelRunning) return;
+        
+        GameStateManager.Instance.CurrentLevel++;
+        PlayerStatsManager.Instance.SaveProgress();
 
         if (healthPackRoutine != null)
         {

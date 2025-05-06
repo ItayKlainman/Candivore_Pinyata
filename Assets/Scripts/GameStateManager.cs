@@ -13,6 +13,7 @@ public class GameStateManager : MonoBehaviour
 {
     public static GameStateManager Instance;
     private GameState CurrentState { get; set; }
+    public int CurrentLevel { get; set; }
 
     [SerializeField] private LevelManager levelManager;
     [SerializeField] private UpgradeUIManager upgradeUIManager;
@@ -33,7 +34,18 @@ public class GameStateManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
+    
+    private void Start()
+    {
+        PlayerStatsManager.Instance.LoadProgress();
+        SetGameState(GameState.Menu);
+    }
+    
+    private void OnApplicationQuit()
+    {
+        PlayerStatsManager.Instance.SaveProgress();
+    }
+    
     private void Initialize()
     {
         levelManager.Initialize();
