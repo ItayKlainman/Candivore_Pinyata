@@ -262,7 +262,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7674783321835300756}
   m_Layer: 0
-  m_Name: Level 3-6 BG Holder
+  m_Name: BG3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
