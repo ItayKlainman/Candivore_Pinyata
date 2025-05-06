@@ -32,6 +32,11 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private float spawnMinDelay = 5f;
     [SerializeField] private float spawnMaxDelay = 10f;
     [SerializeField] private int maxHealthPacksPerLevel = 2;
+    
+    [Header("LEVEL CONFIG")]
+    [SerializeField] private LevelConfigDatabase levelDatabase;
+    [SerializeField] private Transform backgroundContainer;
+    private GameObject currentBackgroundInstance;
 
     private Coroutine healthPackRoutine;
 
@@ -39,7 +44,6 @@ public class LevelManager : MonoBehaviour
     private PinyataController currentPinataController;
     private float currentTime;
     private float currentPinataHP;
-    private int currentLevel = 1;
     private bool isLevelRunning = false;
 
     public void Initialize()
@@ -78,31 +82,58 @@ public class LevelManager : MonoBehaviour
 
     private void StartLevel()
     {
-        Debug.Log($"Starting Level {currentLevel}");
+        Debug.Log($"Starting Level {GameStateManager.Instance.CurrentLevel}");
 
         isLevelRunning = true;
-        var levelBonus = Mathf.FloorToInt(currentLevel / 3f); // every 3 levels = +1 coin
-        PlayerStatsManager.Instance.stats.coinsPerHit += levelBonus;
         coinUIController.gameObject.SetActive(true);
 
-        var pinataHP = baseHP + (currentLevel * hpMultiplier);
-        var timeLimit = baseTime + (currentLevel * timePerLevel);
-
-        InitializePinata(pinataHP);
+        var config = SetLevelData();
+        
+        InitializePinata(config.pinataHP);
         _swipeInput?.Initialize(currentPinataController);
         
-        if (healthPackRoutine != null)
-            StopCoroutine(healthPackRoutine);
-
-        healthPackRoutine = StartCoroutine(HealthPackSpawner());
+        SetHealthPacks();
         
-        currentTime = timeLimit;
-
-        InitHPBar(pinataHP);
+        SetTimer(config);
 
         GameStateManager.Instance.SetGameState(GameState.Playing);
     }
-    
+
+    private void SetTimer(LevelConfig config)
+    {
+        currentTime = config.timeLimit;
+        InitHPBar(config.pinataHP);
+    }
+
+    private void SetHealthPacks()
+    {
+        if (healthPackRoutine != null)
+            StopCoroutine(healthPackRoutine);
+        healthPackRoutine = StartCoroutine(HealthPackSpawner());
+    }
+
+    private LevelConfig SetLevelData()
+    {
+        // Get current level config
+        LevelConfig config = levelDatabase.GetLevel(GameStateManager.Instance.CurrentLevel - 1);
+        
+        var levelBonus = Mathf.FloorToInt(GameStateManager.Instance.CurrentLevel / 3f); // every 3 levels = +1 coin
+        PlayerStatsManager.Instance.stats.coinsPerHit += levelBonus;
+
+        // Spawn background
+        if (currentBackgroundInstance != null)
+            Destroy(currentBackgroundInstance);
+
+        if (config.backgroundPrefab != null)
+        {
+            currentBackgroundInstance = Instantiate(config.backgroundPrefab, backgroundContainer);
+            currentBackgroundInstance.transform.localPosition = Vector3.zero;
+        }
+
+        return config;
+    }
+
+
     private void HealPinata(float amount)
     {
         if (currentPinataController == null) return;
@@ -211,11 +242,5 @@ public class LevelManager : MonoBehaviour
         int seconds = totalSeconds % 60;
 
         timerText.text = $"{minutes:00}:{seconds:00}";
-    }
-
-    public void NextLevel()
-    {
-        currentLevel++;
-        GameStateManager.Instance.SetGameState(GameState.Start);
     }
 }
