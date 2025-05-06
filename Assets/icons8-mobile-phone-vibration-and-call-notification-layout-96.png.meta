@@ -1,10 +1,7 @@
 fileFormatVersion: 2
-guid: 90a65e5f1a9c4c04a89791b3a9eda3c9
+guid: 69f1c0c450d2223439859e97f9dee403
 TextureImporter:
-  internalIDToNameTable:
-  - first:
-      213: 6071599135643913549
-    second: Handle Blue_0
+  internalIDToNameTable: []
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -111,40 +108,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: Handle Blue_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 43
-        height: 80
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 8, y: 9, z: 8, w: 11}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: d4dcf92ce37a24450800000000000000
-      internalID: 6071599135643913549
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
+    sprites: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 604ac9f3977fc5a4fac0a4abb96f3c80
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable:
-      Handle Blue_0: 6071599135643913549
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
