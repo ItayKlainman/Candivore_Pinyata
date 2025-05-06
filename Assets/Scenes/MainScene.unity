@@ -4090,7 +4090,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sfxSource: {fileID: 1764887403}
   musicSource: {fileID: 1764887402}
-  audioClips: []
+  audioClips:
+  - name: MainTheme
+    clip: {fileID: 0}
+    loop: 1
+  - name: Hit
+    clip: {fileID: 8300000, guid: 5106d5771d2c10342a4a21eff9e1a910, type: 3}
+    loop: 1
+  - name: Crit
+    clip: {fileID: 8300000, guid: b4ad265b5d28db54bb401c51bbf8d0c0, type: 3}
+    loop: 1
+  - name: Break
+    clip: {fileID: 8300000, guid: dce255b843b1d0a40bb7e94750d75ca4, type: 3}
+    loop: 1
+  - name: Upgrade
+    clip: {fileID: 8300000, guid: 0a54f3c40fec2e54f800860a946c15fc, type: 3}
+    loop: 1
+  - name: ButtonClick
+    clip: {fileID: 8300000, guid: 79e714968d2d0fa40ace6a4f4560c17b, type: 3}
+    loop: 1
+  - name: Popup
+    clip: {fileID: 8300000, guid: 2cced75a20232e249b90760c92f7c2b2, type: 3}
+    loop: 1
+  - name: Toggle
+    clip: {fileID: 8300000, guid: 782aa9b7c7e938c4ba6aa9739b3ce683, type: 3}
+    loop: 1
+  - name: Slider
+    clip: {fileID: 8300000, guid: 782aa9b7c7e938c4ba6aa9739b3ce683, type: 3}
+    loop: 1
   sfxVolume: 1
   musicVolume: 1
 --- !u!50 &1773887333 stripped

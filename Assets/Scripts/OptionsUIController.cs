@@ -72,13 +72,18 @@ public class OptionsUIController : MonoBehaviour
         HapticsManager.HapticsEnabled = enabled;
         PlayerPrefs.SetInt(HAPTICS_KEY, enabled ? 1 : 0);
         PlayerPrefs.Save();
+
+        FeedbackManager.Play("Toggle", FeedbackStrength.Light); // NEW
         PunchIcon(hapticsIcon);
     }
+
 
     private void OpenOptions()
     {
         wasPausedBefore = Time.timeScale == 0;
         optionsPanel.SetActive(true);
+
+        FeedbackManager.Play("Popup", FeedbackStrength.Light);
 
         panelCanvasGroup.alpha = 0;
         panelContent.localScale = Vector3.zero;
@@ -92,9 +97,12 @@ public class OptionsUIController : MonoBehaviour
                 Time.timeScale = 0;
             });
     }
+
     
     private void CloseOptions()
     {
+        FeedbackManager.Play("Popup", FeedbackStrength.Light); 
+
         panelCanvasGroup.DOFade(0f, 0.2f).SetUpdate(true);
         panelContent.DOScale(0f, 0.3f)
             .SetEase(Ease.InBack)
@@ -106,22 +114,27 @@ public class OptionsUIController : MonoBehaviour
                     Time.timeScale = 1;
             });
     }
+
     
     public void OnMusicSliderReleased(BaseEventData data)
     {
         PunchIcon(musicIcon);
+        FeedbackManager.Play("Slider", FeedbackStrength.Light);
     }
+
 
     public void OnSFXSliderReleased(BaseEventData data)
     {
         PunchIcon(sfxIcon);
+        FeedbackManager.Play("Slider", FeedbackStrength.Light); 
     }
+
     
     private void PunchIcon(RectTransform icon)
     {
         if (icon == null) return;
 
-        icon.DOKill(); // kill ongoing animation
+        icon.DOKill();
         icon.DOPunchScale(Vector3.one * 0.15f, 0.3f, 8, 0.8f).SetUpdate(true);
     }
 

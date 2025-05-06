@@ -32,24 +32,28 @@ public class UpgradeUIManager : MonoBehaviour
         damageButton.onClick.AddListener(() =>
         {
             AnimateButton(damageButton);
+            FeedbackManager.Play("ButtonClick", FeedbackStrength.Light, 0.7f);
             TryUpgrade(UpgradeType.Damage);
         });
 
         critButton.onClick.AddListener(() =>
         {
             AnimateButton(critButton);
+            FeedbackManager.Play("ButtonClick", FeedbackStrength.Light, 0.7f);
             TryUpgrade(UpgradeType.CritChance);
         });
 
         coinButton.onClick.AddListener(() =>
         {
             AnimateButton(coinButton);
+            FeedbackManager.Play("ButtonClick", FeedbackStrength.Light, 0.7f);
             TryUpgrade(UpgradeType.CoinValue);
         });
 
         continueButton.onClick.AddListener(() =>
         {
             AnimateButton(continueButton);
+            FeedbackManager.Play("ButtonClick", FeedbackStrength.Light, 0.7f);
             HandleContinue();
         });
 
@@ -84,8 +88,11 @@ public class UpgradeUIManager : MonoBehaviour
     {
         var cost = PlayerStatsManager.Instance.stats.GetUpgradeCost(type);
         PlayerStatsManager.Instance.ApplyUpgrade(type, cost);
+
+        FeedbackManager.Play("Upgrade", FeedbackStrength.Medium); // Feedback on successful upgrade
         UpdateUI();
     }
+
 
     private void UpdateUI()
     {
@@ -109,7 +116,11 @@ public class UpgradeUIManager : MonoBehaviour
     private void AnimateButton(Button button)
     {
         RectTransform rect = button.GetComponent<RectTransform>();
-        rect.DOKill(); // Cancel any ongoing animation
-        rect.DOScale(1.1f, 0.1f).SetLoops(2, LoopType.Yoyo);
+        rect.DOKill(true);
+        rect.localScale = Vector3.one;
+        rect.DOScale(1.15f, 0.1f)
+            .SetEase(Ease.OutQuad)
+            .SetLoops(2, LoopType.Yoyo);
     }
+
 }

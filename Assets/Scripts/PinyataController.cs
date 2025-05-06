@@ -45,8 +45,13 @@ public class PinyataController : MonoBehaviour
         if (isCrit)
         {
             damage *= stats.critMultiplier;
+            FeedbackManager.Play("Crit", FeedbackStrength.Medium, 1f, 0.1f);
         }
-        
+        else
+        {
+            FeedbackManager.Play("Hit", FeedbackStrength.Light, 0.8f, 0.1f);
+        }
+
         ShowTextEffect(damage, isCrit);
 
         var force = swipeStrength * 0.01f * forceMultiplier;
@@ -57,6 +62,7 @@ public class PinyataController : MonoBehaviour
 
         TakeDamage(damage, direction);
     }
+
 
     private void ShowTextEffect(float damage, bool isCrit)
     {
@@ -95,9 +101,11 @@ public class PinyataController : MonoBehaviour
     private void BreakPinata()
     {
         Debug.Log("PINATA BROKEN!");
+        FeedbackManager.Play("Break", FeedbackStrength.Heavy);
         SpawnCoins(coinsOnBreak);
         onBrokenCallback?.Invoke();
     }
+
 
     private void SpawnCoins(int amount)
     {
