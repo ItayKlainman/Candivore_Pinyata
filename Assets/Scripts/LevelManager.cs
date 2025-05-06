@@ -80,9 +80,14 @@ public class LevelManager : MonoBehaviour
             StartLevel();
         }
     }
+    
+    private bool isStartingLevel = false;
 
     private void StartLevel()
     {
+        if (isStartingLevel) return;
+        isStartingLevel = true;
+        
         Debug.Log($"Starting Level {GameStateManager.Instance.CurrentLevel}");
 
         isLevelRunning = true;
@@ -120,8 +125,7 @@ public class LevelManager : MonoBehaviour
 
         var levelBonus = Mathf.FloorToInt(GameStateManager.Instance.CurrentLevel / 3f);
         PlayerStatsManager.Instance.stats.coinsPerHit += levelBonus;
-
-        // Background
+        
         if (currentBackgroundInstance != null)
             Destroy(currentBackgroundInstance);
 
@@ -130,8 +134,7 @@ public class LevelManager : MonoBehaviour
             currentBackgroundInstance = Instantiate(config.backgroundPrefab, backgroundContainer);
             currentBackgroundInstance.transform.localPosition = Vector3.zero;
         }
-
-        // NEW: Apply health pack timing
+        
         spawnMinDelay = config.healthPackMinDelay;
         spawnMaxDelay = config.healthPackMaxDelay;
 
@@ -213,8 +216,9 @@ public class LevelManager : MonoBehaviour
 
     private void EndLevel()
     {
+        isStartingLevel = false;
         if (!isLevelRunning) return;
-
+        
         GameStateManager.Instance.CurrentLevel++;
         PlayerStatsManager.Instance.SaveProgress();
 

@@ -28,12 +28,9 @@ public class AudioManager : MonoBehaviour
     
     private const string MUSIC_VOL_KEY = "MusicVolume";
     private const string SFX_VOL_KEY = "SFXVolume";
-
-    private void Start()
-    {
-        musicVolume = PlayerPrefs.GetFloat(MUSIC_VOL_KEY, 1f);
-        sfxVolume = PlayerPrefs.GetFloat(SFX_VOL_KEY, 1f);
-    }
+    
+    private float currentlyPlayingMusicVolume;
+    
 
     public void SaveVolumeSettings()
     {
@@ -49,6 +46,8 @@ public class AudioManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
             BuildLookup();
+            musicVolume = PlayerPrefs.GetFloat(MUSIC_VOL_KEY, 1f);
+            sfxVolume = PlayerPrefs.GetFloat(SFX_VOL_KEY, 1f);
         }
         else
         {
@@ -66,6 +65,11 @@ public class AudioManager : MonoBehaviour
         }
     }
     
+    public void UpdateMusicVolume()
+    {
+        if (musicSource != null)
+            musicSource.volume =  currentlyPlayingMusicVolume * musicVolume;
+    }
     
     public void PlaySFX(string name, float volume = 1f, bool isMusic = false, float pitchVariation = 0f)
     {
@@ -82,6 +86,7 @@ public class AudioManager : MonoBehaviour
             musicSource.clip = clipEntry.clip;
             musicSource.volume = volume * musicVolume;
             musicSource.loop = clipEntry.loop;
+            currentlyPlayingMusicVolume = volume;
             musicSource.Play();
         }
         else
@@ -92,7 +97,4 @@ public class AudioManager : MonoBehaviour
             sfxSource.pitch = 1f; // reset to normal
         }
     }
-    
-    
-
 }

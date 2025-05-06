@@ -58,6 +58,7 @@ public class OptionsUIController : MonoBehaviour
     private void OnMusicVolumeChanged(float value)
     {
         AudioManager.Instance.musicVolume = value;
+        AudioManager.Instance.UpdateMusicVolume();
         AudioManager.Instance.SaveVolumeSettings();
     }
 

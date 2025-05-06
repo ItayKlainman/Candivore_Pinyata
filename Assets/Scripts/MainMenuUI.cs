@@ -15,7 +15,7 @@ public class MainMenuUI : MonoBehaviour
         playButton.onClick.AddListener(OnPlayClicked);
         quitButton.onClick.AddListener(OnQuitClicked);
         
-        AudioManager.Instance.PlaySFX("MainTheme", 0.8f, true);
+        AudioManager.Instance.PlaySFX("MainTheme", 0.3f, true);
     }
 
     private void OnPlayClicked()
