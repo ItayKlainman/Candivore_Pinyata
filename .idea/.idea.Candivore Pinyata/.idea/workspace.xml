@@ -6,10 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="c4be34af-ede2-4008-92ce-c01ebb46d480" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Candivore Pinyata/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Candivore Pinyata/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/PinyataHolder.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/PinyataHolder.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/UpgradeStore.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/UpgradeStore.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/MainScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MainScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MainMenuUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/MainMenuUI.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/LevelManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/LevelManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TextMesh Pro/Examples &amp; Extras/Resources/Fonts &amp; Materials/Bangers SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TextMesh Pro/Examples &amp; Extras/Resources/Fonts &amp; Materials/Bangers SDF.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -135,7 +134,7 @@
       <workItem from="1746291400726" duration="15859000" />
       <workItem from="1746435525051" duration="18982000" />
       <workItem from="1746528812102" duration="79000" />
-      <workItem from="1746528910264" duration="19139000" />
+      <workItem from="1746528910264" duration="20764000" />
     </task>
     <servers />
   </component>
@@ -179,45 +178,6 @@
           </properties>
           <option name="timeStamp" value="48" />
         </breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/AudioManager.cs</url>
-          <line>89</line>
-          <properties documentPath="E:\Projects\Unity Projects\Candivore Pinyata\Assets\Scripts\AudioManager.cs" containingFunctionPresentation="Method 'PlaySFX'">
-            <startOffsets>
-              <option value="2417" />
-            </startOffsets>
-            <endOffsets>
-              <option value="2436" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="59" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/AudioManager.cs</url>
-          <line>36</line>
-          <properties documentPath="E:\Projects\Unity Projects\Candivore Pinyata\Assets\Scripts\AudioManager.cs" containingFunctionPresentation="Method 'SaveVolumeSettings'">
-            <startOffsets>
-              <option value="893" />
-            </startOffsets>
-            <endOffsets>
-              <option value="942" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="61" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/UpgradeUIManager.cs</url>
-          <line>72</line>
-          <properties documentPath="E:\Projects\Unity Projects\Candivore Pinyata\Assets\Scripts\UpgradeUIManager.cs" containingFunctionPresentation="Method 'OnGameStateChanged'">
-            <startOffsets>
-              <option value="2376" />
-            </startOffsets>
-            <endOffsets>
-              <option value="2405" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="64" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

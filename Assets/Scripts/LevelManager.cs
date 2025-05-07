@@ -37,7 +37,13 @@ public class LevelManager : MonoBehaviour
 
     [Header("LEVEL CONFIG")] [SerializeField]
     private LevelConfigDatabase levelDatabase;
-
+    
+    [Header("POPUP SETTINGS")]
+    [SerializeField] private GameObject popupPanel;
+    [SerializeField] private TextMeshProUGUI popupText;
+    [SerializeField] private CanvasGroup popupCanvasGroup;
+    [SerializeField] private float popupDuration = 1.5f;
+    
     [SerializeField] private Transform backgroundContainer;
     private GameObject currentBackgroundInstance;
 
@@ -89,23 +95,33 @@ public class LevelManager : MonoBehaviour
     {
         if (isStartingLevel) return;
         isStartingLevel = true;
-        
-        Debug.Log($"Starting Level {GameStateManager.Instance.CurrentLevel}");
 
-        isLevelRunning = true;
+
         coinUIController.gameObject.SetActive(true);
         levelCounter.SetText($"Level {GameStateManager.Instance.CurrentLevel}");
-        var config = SetLevelData();
 
+        var config = SetLevelData();
         InitializePinata(config.pinataHP);
+        SetHealthPacks();
+        InitHPBar(config.pinataHP);
+        
+        StartCoroutine(ShowPopup($"Level {GameStateManager.Instance.CurrentLevel}", () =>
+        {
+            BeginLevel(config);
+        }));
+
+    }
+    
+    private void BeginLevel(LevelConfig config)
+    {
         _swipeInput?.Initialize(currentPinataController);
 
-        SetHealthPacks();
-
         SetTimer(config);
+        isLevelRunning = true;
 
         GameStateManager.Instance.SetGameState(GameState.Playing);
     }
+    
 
     private void SetTimer(LevelConfig config)
     {
@@ -242,7 +258,19 @@ public class LevelManager : MonoBehaviour
         isLevelRunning = false;
         Destroy(currentPinataController.gameObject);
 
-        GameStateManager.Instance.SetGameState(GameState.Upgrading);
+        string resultText = currentTime <= 0 ? "TIME RAN OUT" : "YOU WIN";
+        bool won = currentTime > 0;
+
+        StartCoroutine(ShowPopup(resultText, () =>
+        {
+            if (won)
+            {
+                GameStateManager.Instance.CurrentLevel++;
+                PlayerStatsManager.Instance.SaveProgress();
+            }
+
+            GameStateManager.Instance.SetGameState(GameState.Upgrading);
+        }));
     }
 
     private void UpdateTimerUI()
@@ -274,5 +302,25 @@ public class LevelManager : MonoBehaviour
             timerText.transform.localScale = Vector3.one;
         }
     }
+    
+    private IEnumerator ShowPopup(string message, System.Action onComplete = null)
+    {
+        popupText.text = message;
+        popupCanvasGroup.alpha = 0;
+        popupPanel.SetActive(true);
+        popupCanvasGroup.DOFade(1f, 0.3f);
+        popupPanel.transform.localScale = Vector3.zero;
+        popupPanel.transform.DOScale(1f, 0.4f).SetEase(Ease.OutBack);
 
+        yield return new WaitForSeconds(popupDuration);
+
+        popupCanvasGroup.DOFade(0f, 0.2f);
+        popupPanel.transform.DOScale(0f, 0.3f).SetEase(Ease.InBack)
+            .OnComplete(() =>
+            {
+                popupPanel.SetActive(false);
+                onComplete?.Invoke();
+            });
+    }
+    
 }
