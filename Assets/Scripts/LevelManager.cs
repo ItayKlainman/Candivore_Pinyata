@@ -272,7 +272,7 @@ public class LevelManager : MonoBehaviour
 
         isLevelRunning = false;
 
-        Destroy(currentPinataController.gameObject);
+        //Destroy(currentPinataController.gameObject);
 
         string resultText = currentTime <= 0 ? "TIME RAN OUT" : "YOU WIN";
         bool won = currentTime > 0;

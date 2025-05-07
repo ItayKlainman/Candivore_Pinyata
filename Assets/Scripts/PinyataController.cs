@@ -7,9 +7,17 @@ using Random = UnityEngine.Random;
 
 public class PinyataController : MonoBehaviour
 {
+    private static readonly int Hit = Animator.StringToHash("Hit");
+    private static readonly int IsBroken = Animator.StringToHash("IsBroken");
+
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private float forceMultiplier = 10f;
     [SerializeField] private float maxHealth = 100f;
+    
+    [SerializeField] private Animator animator;
+
+    [SerializeField] private Transform pinataParts;
+    [SerializeField] private SpriteRenderer _spriteRenderer;
 
     [Header("Coin Drop")]
     [SerializeField] private GameObject coinPrefab;
@@ -17,6 +25,13 @@ public class PinyataController : MonoBehaviour
     [SerializeField] private int coinsOnHit = 1;
     [SerializeField] private int coinsOnBreak = 3;
     [SerializeField] private Vector2 coinScatterForce = new Vector2(1f, 2f);
+    
+    [Header("Pinata Parts")]
+    [SerializeField] private GameObject[] brokenPartsPrefabs; 
+    [SerializeField] private Transform partSpawnPoint;
+    [SerializeField] private float partForce = 3f;
+    [SerializeField] private float partTorque = 20f;
+    [SerializeField] private float partLifetime = 2f;
 
     public delegate void PinyataHit(float currentHp, float maxHp);
     public event PinyataHit OnPinyataHit;
@@ -78,7 +93,8 @@ public class PinyataController : MonoBehaviour
     private void TakeDamage(float amount, Vector2 direction)
     {
         currentHealth -= amount;
-
+        animator.SetTrigger(Hit);
+        
         OnPinyataHit?.Invoke(currentHealth, maxHealth);
         PlayHitEffect(direction);
 
@@ -103,10 +119,64 @@ public class PinyataController : MonoBehaviour
     private void BreakPinata()
     {
         Debug.Log("PINATA BROKEN!");
-        FeedbackManager.Play("Break", FeedbackStrength.Heavy,0.5f);
+        FeedbackManager.Play("Break", FeedbackStrength.Heavy, 0.5f);
         LevelManager.Instance.SpawnCoins(coinsOnBreak, transform.position);
         LevelManager.Instance?.PlayConfettiBurst(transform.position);
+
+        // Play breaking animation
+        animator.SetBool("IsBroken", true);
+
+        // Start coroutine to handle part spawning & cleanup
+        StartCoroutine(HandlePinataBreakEffects());
+    }
+
+    private IEnumerator HandlePinataBreakEffects()
+    {
+        Sequence breakSequence = DOTween.Sequence();
+        breakSequence.Join(transform.DOScale(0f, 0.2f).SetEase(Ease.InBack));
+
+        if (_spriteRenderer != null)
+        {
+            breakSequence.Join(_spriteRenderer.DOFade(0f, 0.2f));
+        }
+
+        breakSequence.OnComplete(() =>
+        {
+            SpawnBrokenParts();
+            Destroy(gameObject);
+            onBrokenCallback?.Invoke();
+        });
+
+        yield return breakSequence.WaitForCompletion();
         
+        yield return new WaitForSeconds(1f);
+
+        Destroy(gameObject);
         onBrokenCallback?.Invoke();
     }
+
+    private void SpawnBrokenParts()
+    {
+        foreach (var partPrefab in brokenPartsPrefabs)
+        {
+            Vector3 offset = new Vector3(Random.Range(-0.3f, 0.3f), Random.Range(-0.3f, 0.3f), 0f);
+            Vector3 spawnPos = partSpawnPoint.position + offset;
+
+            GameObject part = Instantiate(partPrefab, spawnPos, Quaternion.identity);
+
+            Rigidbody2D rb = part.GetComponent<Rigidbody2D>();
+            if (rb != null)
+            {
+                Vector2 randomForce = new Vector2(Random.Range(-1f, 1f), Random.Range(0.5f, 1.5f)) * partForce;
+                float randomTorque = Random.Range(-partTorque, partTorque);
+
+                rb.AddForce(randomForce, ForceMode2D.Impulse);
+                rb.AddTorque(randomTorque, ForceMode2D.Impulse);
+            }
+
+            Destroy(part, partLifetime); 
+        }
+    }
+
+
 }
