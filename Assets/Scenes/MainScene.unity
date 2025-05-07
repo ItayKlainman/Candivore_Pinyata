@@ -1338,7 +1338,6 @@ Transform:
   - {fileID: 1883942509}
   - {fileID: 898810722}
   - {fileID: 48492917}
-  - {fileID: 1764887401}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &809727809
@@ -2626,12 +2625,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1764887400}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 781562654}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &1764887402
 AudioSource:
@@ -2869,6 +2868,9 @@ MonoBehaviour:
     loop: 0
   - name: Error
     clip: {fileID: 8300000, guid: 61473493048dcf1469570a101f00cc09, type: 3}
+    loop: 0
+  - name: Pop
+    clip: {fileID: 8300000, guid: 5f1f51200fe601346a69bff16866a48a, type: 3}
     loop: 0
   sfxVolume: 1
   musicVolume: 1
@@ -4069,6 +4071,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 1385253311}
   - {fileID: 28306221}
+  - {fileID: 1764887401}
   - {fileID: 781562654}
   - {fileID: 1978808786}
   - {fileID: 419659435}

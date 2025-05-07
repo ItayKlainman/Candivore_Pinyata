@@ -393,6 +393,7 @@ public class LevelManager : MonoBehaviour
             Vector3 spawnPos = center + new Vector3(offset.x, offset.y, 0f);
 
             var confetti = ObjectPool.Instance.GetFromPool("Confetti", spawnPos, Quaternion.identity);
+            FeedbackManager.Play("Pop",FeedbackStrength.None, 0.5f, 0.3f);
             var ps = confetti.GetComponent<ParticleSystem>();
             if (ps != null)
             {
@@ -429,7 +430,7 @@ public class LevelManager : MonoBehaviour
             {
                 ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
                 ps.Play();
-
+                FeedbackManager.Play("Pop",FeedbackStrength.None, 0.5f, 0.3f);
                 float delay = ps.main.duration + ps.main.startLifetime.constantMax;
                 StartCoroutine(ReturnParticleToPoolAfter(ps, "Confetti", delay));
             }

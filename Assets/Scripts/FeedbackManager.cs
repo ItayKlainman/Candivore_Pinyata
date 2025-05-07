@@ -1,6 +1,7 @@
+using System;
 using UnityEngine;
 
-public enum FeedbackStrength { Light, Medium, Heavy }
+public enum FeedbackStrength { Light, Medium, Heavy, None}
 
 public static class FeedbackManager
 {
@@ -18,6 +19,8 @@ public static class FeedbackManager
                 break;
             case FeedbackStrength.Heavy:
                 HapticsManager.HeavyImpact();
+                break;
+            case FeedbackStrength.None:
                 break;
         }
 
