@@ -6,16 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="c4be34af-ede2-4008-92ce-c01ebb46d480" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Candivore Pinyata/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Candivore Pinyata/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/FloatingText.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/FloatingText.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/HealthPack.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/HealthPack.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Pinata/Pinyata.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Pinata/Pinyata.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/UpgradeStore.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/UpgradeStore.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/MainScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MainScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CoinUIController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CoinUIController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/FloatingText.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/FloatingText.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/HealthPack.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/HealthPack.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/LevelManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/LevelManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/TextMesh Pro/Examples &amp; Extras/Resources/Fonts &amp; Materials/Bangers SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TextMesh Pro/Examples &amp; Extras/Resources/Fonts &amp; Materials/Bangers SDF.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -142,7 +135,7 @@
       <workItem from="1746291400726" duration="15859000" />
       <workItem from="1746435525051" duration="18982000" />
       <workItem from="1746528812102" duration="79000" />
-      <workItem from="1746528910264" duration="39083000" />
+      <workItem from="1746528910264" duration="40069000" />
     </task>
     <servers />
   </component>
@@ -186,6 +179,19 @@
           </properties>
           <option name="timeStamp" value="48" />
         </breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/PinyataController.cs</url>
+          <line>144</line>
+          <properties documentPath="E:\Projects\Unity Projects\Candivore Pinyata\Assets\Scripts\PinyataController.cs" containingFunctionPresentation="Lambda expression inside Method 'HandlePinataBreakEffects'">
+            <startOffsets>
+              <option value="4546" />
+            </startOffsets>
+            <endOffsets>
+              <option value="4565" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="72" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

@@ -116,7 +116,7 @@ public class LevelManager : MonoBehaviour
 
         SetHealthPacks();
         InitHPBar(config.pinataHP);
-
+        FeedbackManager.Play("LevelIntro", FeedbackStrength.None);
         StartCoroutine(ShowPopup($"Level {GameStateManager.Instance.CurrentLevel}", () => { BeginLevel(config); }));
     }
 
