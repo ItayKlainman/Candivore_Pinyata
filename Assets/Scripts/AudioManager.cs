@@ -31,6 +31,10 @@ public class AudioManager : MonoBehaviour
     private float currentlyPlayingMusicVolume;
     private bool musicStarted = false;
     private string currentClipName = "";
+    
+    private List<AudioSource> sfxPool = new();
+    private int poolSize = 8; 
+
 
     private void Awake()
     {
@@ -43,9 +47,21 @@ public class AudioManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
+        Initialize();
+    }
+
+    private void Initialize()
+    {
         BuildLookup();
         musicVolume = PlayerPrefs.GetFloat(MUSIC_VOL_KEY, 1f);
         sfxVolume = PlayerPrefs.GetFloat(SFX_VOL_KEY, 1f);
+        
+        for (int i = 0; i < poolSize; i++)
+        {
+            var source = gameObject.AddComponent<AudioSource>();
+            source.playOnAwake = false;
+            sfxPool.Add(source);
+        }
     }
 
     public void SaveVolumeSettings()
@@ -65,7 +81,20 @@ public class AudioManager : MonoBehaviour
                 clipLookup.Add(entry.name, entry);
         }
     }
-
+    
+    private AudioSource GetAvailableSFXSource()
+    {
+        foreach (var source in sfxPool)
+        {
+            if (!source.isPlaying)
+                return source;
+        }
+        
+        var newSource = gameObject.AddComponent<AudioSource>();
+        sfxPool.Add(newSource);
+        return newSource;
+    }
+    
     public void UpdateMusicVolume()
     {
         if (musicSource != null)
@@ -100,10 +129,19 @@ public class AudioManager : MonoBehaviour
         }
         else
         {
-            float pitch = 1f + Random.Range(-pitchVariation, pitchVariation);
-            sfxSource.pitch = pitch;
-            sfxSource.PlayOneShot(clipEntry.clip, volume * sfxVolume);
-            sfxSource.pitch = 1f;
+            if (Mathf.Approximately(pitchVariation, 0f))
+            {
+                sfxSource.PlayOneShot(clipEntry.clip, volume * sfxVolume);
+            }
+            else
+            {
+                var source = GetAvailableSFXSource();
+                source.clip = clipEntry.clip;
+                source.volume = volume * sfxVolume;
+                source.pitch = 1f + Random.Range(-pitchVariation, pitchVariation);
+                source.loop = false;
+                source.Play();
+            }
         }
     }
 

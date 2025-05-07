@@ -46,11 +46,13 @@ public class PinyataController : MonoBehaviour
         if (isCrit)
         {
             damage *= stats.critMultiplier;
-            FeedbackManager.Play("Crit", FeedbackStrength.Medium, 1f, 0.3f);
+            FeedbackManager.Play("Crit", FeedbackStrength.Medium, 1f, 0.4f);
+            CameraShakeManager.Instance.Shake(0.25f, 0.2f);
         }
         else
         {
-            FeedbackManager.Play("Hit", FeedbackStrength.Light, 0.8f, 0.3f);
+            FeedbackManager.Play("Hit", FeedbackStrength.Light, 0.8f, 0.7f);
+            CameraShakeManager.Instance.Shake(0.1f, 0.2f);
         }
 
         ShowTextEffect(damage, isCrit);
@@ -95,7 +97,6 @@ public class PinyataController : MonoBehaviour
     private void PlayHitEffect(Vector2 dir)
     {
         transform.DOComplete();
-        CameraShakeManager.Instance.Shake(0.5f, 1f);
         transform.DOPunchScale(dir * 0.2f, 0.2f);
     }
 

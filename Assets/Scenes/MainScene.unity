@@ -2876,6 +2876,9 @@ MonoBehaviour:
   - name: Pop
     clip: {fileID: 8300000, guid: 5f1f51200fe601346a69bff16866a48a, type: 3}
     loop: 0
+  - name: TimerTick
+    clip: {fileID: 8300000, guid: a01701e928043ef4bbb64fe55783a015, type: 3}
+    loop: 0
   sfxVolume: 1
   musicVolume: 1
 --- !u!50 &1773887333 stripped

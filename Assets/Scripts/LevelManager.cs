@@ -305,6 +305,8 @@ public class LevelManager : MonoBehaviour
         timerText.rectTransform.DOScale(0f, 0.3f).SetEase(Ease.InBack);
     }
 
+    private float lastTickSecond = -1f;
+
     private void UpdateTimerUI()
     {
         if (timerText == null) return;
@@ -321,19 +323,29 @@ public class LevelManager : MonoBehaviour
 
             if (!DOTween.IsTweening(timerText.transform))
             {
-                timerText.transform.DOKill(); // just in case
+                timerText.transform.DOKill();
                 timerText.transform
                     .DOScale(1.3f, 0.3f)
                     .SetLoops(2, LoopType.Yoyo)
                     .SetEase(Ease.OutBack);
+            }
+
+            if (!Mathf.Approximately(lastTickSecond, totalSeconds))
+            {
+                lastTickSecond = totalSeconds;
+                
+                CameraShakeManager.Instance?.Shake(0.1f, 0.2f); 
+                FeedbackManager.Play("TimerTick", FeedbackStrength.Light, 0.7f);
             }
         }
         else
         {
             timerText.color = Color.white;
             timerText.transform.localScale = Vector3.one;
+            lastTickSecond = -1f;
         }
     }
+
 
     private IEnumerator ShowPopup(string message, System.Action onComplete = null)
     {
