@@ -95,6 +95,7 @@ public class PinyataController : MonoBehaviour
     private void PlayHitEffect(Vector2 dir)
     {
         transform.DOComplete();
+        CameraShakeManager.Instance.Shake(0.5f, 1f);
         transform.DOPunchScale(dir * 0.2f, 0.2f);
     }
 

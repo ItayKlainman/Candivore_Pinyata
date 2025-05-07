@@ -232,7 +232,8 @@ public class LevelManager : MonoBehaviour
     private void OnPinataControllerHit(float currentHp, float maxHp)
     {
         healthBar.value = currentHp / maxHp;
-        _healthText.SetText($"{currentHp}/{maxHp}");
+        var currentHPcClamp = Mathf.Clamp(currentHp, 0, maxHp);
+        _healthText.SetText($"{currentHPcClamp}/{maxHp}");
     }
 
     private void OnPinataBroken()
