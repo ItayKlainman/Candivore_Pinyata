@@ -5,6 +5,9 @@ using UnityEngine.EventSystems;
 
 public class OptionsUIController : MonoBehaviour
 {
+
+    [SerializeField] private SwipeInput swipeInput;
+    
     [Header("UI")]
     [SerializeField] private GameObject optionsPanel;
     [SerializeField] private RectTransform panelContent;
@@ -124,6 +127,8 @@ public class OptionsUIController : MonoBehaviour
     
     private void OpenOptions()
     {
+        swipeInput.inputBlocked = true;
+        
         wasPausedBefore = Time.timeScale == 0;
         optionsPanel.SetActive(true);
         returnToMainMenuButton.gameObject.SetActive(openedFromGame);
@@ -146,6 +151,8 @@ public class OptionsUIController : MonoBehaviour
     
     private void CloseOptions()
     {
+        swipeInput.inputBlocked = false;
+
         FeedbackManager.Play("Popup", FeedbackStrength.Light); 
         openInGameButton.interactable = true;
         panelCanvasGroup.DOFade(0f, 0.2f).SetUpdate(true);

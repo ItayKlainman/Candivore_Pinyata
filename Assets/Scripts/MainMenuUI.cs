@@ -23,7 +23,6 @@ public class MainMenuUI : MonoBehaviour
         AnimateButton(playButton);
         FeedbackManager.Play("ButtonClick", FeedbackStrength.Light, 0.7f);
         mainMenuPanel.SetActive(false);
-        //upgradePanel.SetActive(true);
         GameStateManager.Instance.SetGameState(GameState.Start);
     }
 

@@ -221,7 +221,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 4600653493930852405}
-  forceMultiplier: 20
+  forceMultiplier: 10
   maxHealth: 1000
   animator: {fileID: 5203086699216253577}
   pinataParts: {fileID: 0}

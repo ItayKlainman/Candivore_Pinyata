@@ -357,7 +357,7 @@ public class LevelManager : MonoBehaviour
             {
                 lastTickSecond = totalSeconds;
                 
-                CameraShakeManager.Instance?.Shake(0.1f, 0.2f); 
+                CameraShakeManager.Instance?.Shake(0.3f, 0.2f); 
                 FeedbackManager.Play("TimerTick", FeedbackStrength.Light, 0.7f);
             }
         }

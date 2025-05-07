@@ -15,7 +15,7 @@ MonoBehaviour:
   levelName: Level 1
   backgroundPrefab: {fileID: 7295091787848473937, guid: 7ea13e2bfdd8cd44386318fdfd26b8b0, type: 3}
   pinataHP: 100
-  timeLimit: 30
+  timeLimit: 20
   healthPackMinDelay: 6
   healthPackMaxDelay: 10
   MaxHealthPacks: 3

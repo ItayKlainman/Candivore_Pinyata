@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public static class HapticsManager
@@ -37,14 +38,19 @@ public static class HapticsManager
 
     private static void Vibrate(long milliseconds)
     {
+        try
+        {
 #if UNITY_ANDROID && !UNITY_EDITOR
         if (vibrator != null)
             vibrator.Call("vibrate", milliseconds);
-#elif UNITY_IOS
-        // iOS requires plugin or native bridge, placeholder:
-        Handheld.Vibrate();
 #else
-        Handheld.Vibrate(); // fallback in editor/unsupported platforms
+            Handheld.Vibrate(); // fallback in editor/unsupported platforms
 #endif
+        }
+        catch (Exception e)
+        {
+            Debug.LogWarning("Vibration failed: " + e.Message);
+            throw;
+        }
     }
 }

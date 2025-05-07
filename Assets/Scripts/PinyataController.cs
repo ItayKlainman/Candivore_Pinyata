@@ -65,12 +65,12 @@ public class PinyataController : MonoBehaviour
         {
             damage *= stats.critMultiplier;
             FeedbackManager.Play("Crit", FeedbackStrength.Medium, 1f, 0.4f);
-            CameraShakeManager.Instance.Shake(0.25f, 0.2f);
+            CameraShakeManager.Instance.Shake(0.45f, 0.2f);
         }
         else
         {
             FeedbackManager.Play("Hit", FeedbackStrength.Medium, 1f, 0.4f);
-            CameraShakeManager.Instance.Shake(0.1f, 0.2f);
+            CameraShakeManager.Instance.Shake(0.3f, 0.2f);
         }
         
         if (randomHitSFXNames != null && randomHitSFXNames.Length > 0)

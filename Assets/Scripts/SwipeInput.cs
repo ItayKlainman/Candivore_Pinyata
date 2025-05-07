@@ -11,22 +11,14 @@ public class SwipeInput : MonoBehaviour
 
     private PinyataController pinataController;
     private Camera _camera;
-
-    private void Start()
-    {
-        _camera = Camera.main;
-    }
-
-    public void Initialize(PinyataController pinata)
-    {
-        pinataController = pinata;
-    }
+    public bool inputBlocked = false;
 
     private void Update()
     {
+        if (inputBlocked) return;
         if (!GameStateManager.Instance.IsState(GameState.Playing))
             return;
-
+        
 #if UNITY_EDITOR
         if (Input.GetMouseButtonDown(0))
         {
@@ -58,6 +50,16 @@ public class SwipeInput : MonoBehaviour
             }
         }
 #endif
+    }
+
+    private void Start()
+    {
+        _camera = Camera.main;
+    }
+
+    public void Initialize(PinyataController pinata)
+    {
+        pinataController = pinata;
     }
 
     private void ProcessSwipe(Vector2 endTouch)
