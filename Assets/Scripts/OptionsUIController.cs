@@ -27,9 +27,12 @@ public class OptionsUIController : MonoBehaviour
     [SerializeField] private RectTransform sfxIcon;
     [SerializeField] private RectTransform hapticsIcon;
     
+    [SerializeField] private Button returnToMainMenuButton;
+    
     private const string HAPTICS_KEY = "HapticsEnabled";
     private bool wasPausedBefore = false;
-
+    private bool openedFromGame = false;
+    
     private void Start()
     {
         // Load volume values
@@ -46,15 +49,34 @@ public class OptionsUIController : MonoBehaviour
         sfxSlider.onValueChanged.AddListener(OnSFXVolumeChanged);
         hapticsToggle.onValueChanged.AddListener(OnHapticsToggled);
 
-        openMainMenuButton.onClick.AddListener(OpenOptions);
-        //openInGameButton.onClick.AddListener(OpenOptions);
-        closeButton.onClick.AddListener(CloseOptions);
+        openMainMenuButton.onClick.AddListener(() =>
+        {
+            openedFromGame = false;
+            OpenOptions();
+        });
 
+        openInGameButton.onClick.AddListener(() =>
+        {
+            openedFromGame = true;
+            OpenOptions();
+        });
+
+        closeButton.onClick.AddListener(CloseOptions);
+        
+        returnToMainMenuButton.onClick.AddListener(HandleReturnToMainMenu);
+        
         optionsPanel.SetActive(false);
         panelCanvasGroup.alpha = 0;
         panelContent.localScale = Vector3.zero;
     }
-
+    
+    private void HandleReturnToMainMenu()
+    {
+        Time.timeScale = 1f;
+        GameStateManager.Instance.SetGameState(GameState.Menu); 
+        UnityEngine.SceneManagement.SceneManager.LoadScene("MainScene"); 
+    }
+    
     private void OnMusicVolumeChanged(float value)
     {
         AudioManager.Instance.musicVolume = value;
@@ -83,7 +105,8 @@ public class OptionsUIController : MonoBehaviour
     {
         wasPausedBefore = Time.timeScale == 0;
         optionsPanel.SetActive(true);
-
+        returnToMainMenuButton.gameObject.SetActive(openedFromGame);
+        
         FeedbackManager.Play("Popup", FeedbackStrength.Light);
 
         panelCanvasGroup.alpha = 0;
