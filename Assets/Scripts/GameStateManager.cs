@@ -47,6 +47,8 @@ public class GameStateManager : MonoBehaviour
     
     private void Initialize()
     {
+        Application.targetFrameRate = 60;
+        
         levelManager.Initialize();
         upgradeUIManager.Initialize();
     }

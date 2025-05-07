@@ -46,6 +46,13 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private CanvasGroup popupCanvasGroup;
     [SerializeField] private float popupDuration = 1.5f;
     
+    [Header("Tutorial Popup")]
+    [SerializeField] private GameObject tutorialPanel;
+    [SerializeField] private CanvasGroup tutorialCanvasGroup;
+    [SerializeField] private float tutorialDuration = 0f; // Set to 0 to require user dismissal
+    [SerializeField] private Button tutorialContinueButton;
+
+    
     [Header("End Game")]
     [SerializeField] private GameObject endGamePopupPanel;
     [SerializeField] private CanvasGroup endGamePopupCanvasGroup;
@@ -110,17 +117,28 @@ public class LevelManager : MonoBehaviour
         if (isStartingLevel) return;
         isStartingLevel = true;
 
-
         coinUIController.gameObject.SetActive(true);
         levelCounter.SetText($"Level {GameStateManager.Instance.CurrentLevel}");
 
         var config = SetLevelData();
         InitializePinata(config.pinataHP);
 
-        SetHealthPacks();
-        InitHPBar(config.pinataHP);
-        FeedbackManager.Play("LevelIntro", FeedbackStrength.None, 0.6f);
-        StartCoroutine(ShowPopup($"Level {GameStateManager.Instance.CurrentLevel}", () => { BeginLevel(config); }));
+        void AfterTutorial()
+        {
+            SetHealthPacks();
+            InitHPBar(config.pinataHP);
+            FeedbackManager.Play("LevelIntro", FeedbackStrength.None, 0.6f);
+            StartCoroutine(ShowPopup($"Level {GameStateManager.Instance.CurrentLevel}", () => { BeginLevel(config); }));
+        }
+
+        if (GameStateManager.Instance.CurrentLevel == 1)
+        {
+            ShowTutorialPopup(AfterTutorial);
+        }
+        else
+        {
+            AfterTutorial();
+        }
     }
 
     private void BeginLevel(LevelConfig config)
@@ -367,6 +385,56 @@ public class LevelManager : MonoBehaviour
             timerText.transform.localScale = Vector3.one;
             lastTickSecond = -1f;
         }
+    }
+
+    private void ShowTutorialPopup(System.Action onComplete = null)
+    {
+        tutorialPanel.SetActive(true);
+        tutorialCanvasGroup.alpha = 0f;
+        tutorialCanvasGroup.interactable = false;
+        tutorialCanvasGroup.blocksRaycasts = false;
+        tutorialPanel.transform.localScale = Vector3.zero;
+
+        tutorialCanvasGroup.DOFade(1f, 0.3f);
+        tutorialPanel.transform.DOScale(1f, 0.4f).SetEase(Ease.OutBack)
+            .OnComplete(() =>
+            {
+                tutorialCanvasGroup.interactable = true;
+                tutorialCanvasGroup.blocksRaycasts = true;
+
+                if (tutorialDuration > 0f)
+                {
+                    StartCoroutine(HideTutorialAfterDelay(onComplete));
+                }
+                else
+                {
+                    tutorialContinueButton.onClick.RemoveAllListeners();
+                    tutorialContinueButton.onClick.AddListener(() =>
+                    {
+                        HideTutorialPopup(onComplete);
+                    });
+                }
+            });
+    }
+
+    private IEnumerator HideTutorialAfterDelay(System.Action onComplete)
+    {
+        yield return new WaitForSeconds(tutorialDuration);
+        HideTutorialPopup(onComplete);
+    }
+
+    private void HideTutorialPopup(System.Action onComplete = null)
+    {
+        tutorialCanvasGroup.interactable = false;
+        tutorialCanvasGroup.blocksRaycasts = false;
+
+        tutorialCanvasGroup.DOFade(0f, 0.2f);
+        tutorialPanel.transform.DOScale(0f, 0.3f).SetEase(Ease.InBack)
+            .OnComplete(() =>
+            {
+                tutorialPanel.SetActive(false);
+                onComplete?.Invoke();
+            });
     }
 
 
