@@ -5,11 +5,24 @@ public class CameraShakeManager : MonoBehaviour
 {
     public static CameraShakeManager Instance;
 
-    [SerializeField] private CinemachineVirtualCamera virtualCamera;
-    [SerializeField] private float shakeDuration = 0.2f;
+    [SerializeField] private CinemachineVirtualCamera virtualCam;
+    [SerializeField] private float shakeDuration = 0.3f;
+    [SerializeField] private float shakeAmplitude = 1.2f;
+    [SerializeField] private float shakeFrequency = 2.0f;
 
+    private CinemachineBasicMultiChannelPerlin noise;
     private float shakeTimer;
-    private CinemachineBasicMultiChannelPerlin perlin;
+    private bool isShaking = false;
+
+    public static bool ShakeEnabled
+    {
+        get => PlayerPrefs.GetInt("ShakeEnabled", 1) == 1;
+        set
+        {
+            PlayerPrefs.SetInt("ShakeEnabled", value ? 1 : 0);
+            PlayerPrefs.Save();
+        }
+    }
 
     private void Awake()
     {
@@ -20,34 +33,39 @@ public class CameraShakeManager : MonoBehaviour
         }
 
         Instance = this;
-
-        if (virtualCamera != null)
-        {
-            perlin = virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
-        }
-    }
-
-    public void Shake(float amplitude, float frequency)
-    {
-        if (perlin == null) return;
-
-        perlin.m_AmplitudeGain = amplitude;
-        perlin.m_FrequencyGain = frequency;
-        shakeTimer = shakeDuration;
+        noise = virtualCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+        StopShake();
     }
 
     private void Update()
     {
-        if (perlin == null) return;
+        if (!isShaking) return;
 
-        if (shakeTimer > 0)
+        shakeTimer -= Time.unscaledDeltaTime;
+        if (shakeTimer <= 0f)
         {
-            shakeTimer -= Time.unscaledDeltaTime;
-            if (shakeTimer <= 0f)
-            {
-                perlin.m_AmplitudeGain = 0f;
-                perlin.m_FrequencyGain = 0f;
-            }
+            StopShake();
         }
+    }
+
+    public void Shake(float intensity = -1f, float duration = -1f)
+    {
+        if (!ShakeEnabled || noise == null) return;
+
+        noise.m_AmplitudeGain = intensity > 0 ? intensity : shakeAmplitude;
+        noise.m_FrequencyGain = shakeFrequency;
+        shakeTimer = duration > 0 ? duration : shakeDuration;
+        isShaking = true;
+    }
+
+    private void StopShake()
+    {
+        if (noise != null)
+        {
+            noise.m_AmplitudeGain = 0f;
+            noise.m_FrequencyGain = 0f;
+        }
+
+        isShaking = false;
     }
 }

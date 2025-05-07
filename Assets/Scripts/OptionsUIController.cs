@@ -21,11 +21,16 @@ public class OptionsUIController : MonoBehaviour
 
     [Header("Toggles")]
     [SerializeField] private Toggle hapticsToggle;
+    [SerializeField] private Toggle cameraShakeToggle;
+
+    private const string CAMERA_SHAKE_KEY = "CameraShakeEnabled";
+
     
     [Header("Icon Reactions")]
     [SerializeField] private RectTransform musicIcon;
     [SerializeField] private RectTransform sfxIcon;
     [SerializeField] private RectTransform hapticsIcon;
+    [SerializeField] private RectTransform _cameraShakeIcon;
     
     [SerializeField] private Button returnToMainMenuButton;
     
@@ -43,6 +48,13 @@ public class OptionsUIController : MonoBehaviour
         bool hapticsEnabled = PlayerPrefs.GetInt(HAPTICS_KEY, 1) == 1;
         hapticsToggle.isOn = hapticsEnabled;
         HapticsManager.HapticsEnabled = hapticsEnabled;
+        
+        // Load Camera Shake
+        bool shakeEnabled = PlayerPrefs.GetInt(CAMERA_SHAKE_KEY, 1) == 1;
+        cameraShakeToggle.isOn = shakeEnabled;
+        CameraShakeManager.ShakeEnabled = shakeEnabled;
+        cameraShakeToggle.onValueChanged.AddListener(OnCameraShakeToggled);
+
 
         // Listeners
         musicSlider.onValueChanged.AddListener(OnMusicVolumeChanged);
@@ -100,13 +112,22 @@ public class OptionsUIController : MonoBehaviour
         PunchIcon(hapticsIcon);
     }
 
+    private void OnCameraShakeToggled(bool enabled)
+    {
+        CameraShakeManager.ShakeEnabled = enabled;
+        PlayerPrefs.SetInt(CAMERA_SHAKE_KEY, enabled ? 1 : 0);
+        PlayerPrefs.Save();
 
+        FeedbackManager.Play("Toggle", FeedbackStrength.Light);
+        PunchIcon(_cameraShakeIcon);
+    }
+    
     private void OpenOptions()
     {
         wasPausedBefore = Time.timeScale == 0;
         optionsPanel.SetActive(true);
         returnToMainMenuButton.gameObject.SetActive(openedFromGame);
-        
+        openInGameButton.interactable = false;
         FeedbackManager.Play("Popup", FeedbackStrength.Light);
 
         panelCanvasGroup.alpha = 0;
@@ -126,7 +147,7 @@ public class OptionsUIController : MonoBehaviour
     private void CloseOptions()
     {
         FeedbackManager.Play("Popup", FeedbackStrength.Light); 
-
+        openInGameButton.interactable = true;
         panelCanvasGroup.DOFade(0f, 0.2f).SetUpdate(true);
         panelContent.DOScale(0f, 0.3f)
             .SetEase(Ease.InBack)
