@@ -45,13 +45,13 @@ public class PlayerStatsManager : MonoBehaviour
         if (TrySpendCoins(cost))
         {
             stats.ApplyUpgrade(type);
-            Debug.Log($"Upgrade applied: {type}");
+            //Debug.Log($"Upgrade applied: {type}");
             SaveProgress();
 
         }
         else
         {
-            Debug.Log("Not enough coins for upgrade");
+            //Debug.Log("Not enough coins for upgrade");
         }
     }
 
@@ -91,7 +91,7 @@ public class PlayerStatsManager : MonoBehaviour
         stats.coinLevel = 1;
 
         stats.ApplyUpgradeLevels();
-        Debug.Log("Player progress has been reset.");
+        //Debug.Log("Player progress has been reset.");
     }
 
 }

@@ -69,15 +69,15 @@ public class PinyataController : MonoBehaviour
         }
         else
         {
-            if (randomHitSFXNames != null && randomHitSFXNames.Length > 0)
-            {
-                string clipName = randomHitSFXNames[Random.Range(0, randomHitSFXNames.Length)];
-                FeedbackManager.Play(clipName, FeedbackStrength.Light, 0.6f, 0.3f);
-            }
-            
+            FeedbackManager.Play("Hit", FeedbackStrength.Medium, 1f, 0.4f);
             CameraShakeManager.Instance.Shake(0.1f, 0.2f);
         }
         
+        if (randomHitSFXNames != null && randomHitSFXNames.Length > 0)
+        {
+            string clipName = randomHitSFXNames[Random.Range(0, randomHitSFXNames.Length)];
+            FeedbackManager.Play(clipName, FeedbackStrength.Light, 0.6f, 0.3f);
+        }
 
         ShowTextEffect(damage, isCrit);
 
@@ -127,7 +127,7 @@ public class PinyataController : MonoBehaviour
 
     private void BreakPinata()
     {
-        Debug.Log("PINATA BROKEN!");
+        //Debug.Log("PINATA BROKEN!");
         FeedbackManager.Play("Break", FeedbackStrength.Heavy, 0.5f);
         LevelManager.Instance.SpawnCoins(coinsOnBreak, transform.position);
         LevelManager.Instance?.PlayConfettiBurst(transform.position);

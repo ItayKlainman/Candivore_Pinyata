@@ -193,6 +193,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65930445de20cd448aca0de9d3141686, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healAmount: 20
+  healAmount: 100
   lifeTime: 3.5
   healTextColor: {r: 0.33610716, g: 0.7830189, b: 0.33610716, a: 1}

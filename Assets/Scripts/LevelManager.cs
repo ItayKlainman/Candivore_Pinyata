@@ -176,7 +176,7 @@ public class LevelManager : MonoBehaviour
         if (currentPinataController == null) return;
 
         currentPinataController.Heal(amount);
-        Debug.Log($"Pinata healed for {amount}!");
+        //Debug.Log($"Pinata healed for {amount}!");
     }
     
     private void InitializePinata(float hp)
