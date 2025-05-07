@@ -111,6 +111,11 @@ public class UpgradeUIManager : MonoBehaviour
     private void HandleContinue()
     {
         GameStateManager.Instance.SetGameState(GameState.Start);
+        
+        if (LevelManager.Instance != null && LevelManager.Instance.IsConfettiRunning())
+        {
+            LevelManager.Instance.StopConfetti();
+        }
     }
 
     private void AnimateButton(Button button)

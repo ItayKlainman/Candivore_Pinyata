@@ -1,5 +1,6 @@
 
 using System;
+using System.Collections;
 using DG.Tweening;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -14,7 +15,7 @@ public class PinyataController : MonoBehaviour
     [SerializeField] private GameObject coinPrefab;
     [SerializeField] private Transform coinSpawnPoint;
     [SerializeField] private int coinsOnHit = 1;
-    [SerializeField] private int coinsOnBreak = 10;
+    [SerializeField] private int coinsOnBreak = 3;
     [SerializeField] private Vector2 coinScatterForce = new Vector2(1f, 2f);
 
     public delegate void PinyataHit(float currentHp, float maxHp);
@@ -45,11 +46,11 @@ public class PinyataController : MonoBehaviour
         if (isCrit)
         {
             damage *= stats.critMultiplier;
-            FeedbackManager.Play("Crit", FeedbackStrength.Medium, 1f, 0.1f);
+            FeedbackManager.Play("Crit", FeedbackStrength.Medium, 1f, 0.3f);
         }
         else
         {
-            FeedbackManager.Play("Hit", FeedbackStrength.Light, 0.8f, 0.1f);
+            FeedbackManager.Play("Hit", FeedbackStrength.Light, 0.8f, 0.3f);
         }
 
         ShowTextEffect(damage, isCrit);
@@ -57,13 +58,12 @@ public class PinyataController : MonoBehaviour
         var force = swipeStrength * 0.01f * forceMultiplier;
         rb.AddForce(direction * force, ForceMode2D.Impulse);
 
-        PlayerStatsManager.Instance.AddCoins(stats.coinsPerHit);
-        SpawnCoins(stats.coinsPerHit);
-
+        PlayerStatsManager.Instance.AddCoins(stats.coinsPerHit); 
+        LevelManager.Instance.SpawnCoins(1, transform.position);
+        
         TakeDamage(damage, direction);
     }
-
-
+    
     private void ShowTextEffect(float damage, bool isCrit)
     {
         Vector3 spawnPos = transform.position + new Vector3(Random.Range(-0.5f, 0.5f), 1f, 0f);
@@ -101,36 +101,10 @@ public class PinyataController : MonoBehaviour
     private void BreakPinata()
     {
         Debug.Log("PINATA BROKEN!");
-        FeedbackManager.Play("Break", FeedbackStrength.Heavy);
-        SpawnCoins(coinsOnBreak);
-        onBrokenCallback?.Invoke();
-    }
-
-
-    private void SpawnCoins(int amount)
-    {
-        coinSpawnPoint = transform;
+        FeedbackManager.Play("Break", FeedbackStrength.Heavy,0.5f);
+        LevelManager.Instance.SpawnCoins(coinsOnBreak, transform.position);
+        LevelManager.Instance?.PlayConfettiBurst(transform.position);
         
-        if (coinSpawnPoint == null)
-        {
-            Debug.LogWarning("Missing coin prefab or spawn point.");
-            return;
-        }
-
-        var pool = ObjectPool.Instance;
-        for (int i = 0; i < amount; i++)
-        {
-            var coin = pool.GetFromPool("Coin", coinSpawnPoint.position, Quaternion.identity);
-            var coinRB = coin.GetComponent<Rigidbody2D>();
-            
-            if (coinRB != null)
-            {
-                var randomForce = new Vector2(
-                    Random.Range(-coinScatterForce.x, coinScatterForce.x),
-                    Random.Range(coinScatterForce.y / 2f, coinScatterForce.y)
-                );
-                coinRB.AddForce(randomForce, ForceMode2D.Impulse);
-            }
-        }
+        onBrokenCallback?.Invoke();
     }
 }

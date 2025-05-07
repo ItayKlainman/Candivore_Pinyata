@@ -27,6 +27,8 @@ public class LevelManager : MonoBehaviour
 
     [Header("COINS UI")] [SerializeField] private CoinUIController coinUIController;
 
+    [Header("Timer UI")] [SerializeField] private CanvasGroup timerCanvasGroup;
+
     [Header("HEALTH PACK SETTINGS")] [SerializeField]
     private GameObject healthPackPrefab;
 
@@ -37,13 +39,14 @@ public class LevelManager : MonoBehaviour
 
     [Header("LEVEL CONFIG")] [SerializeField]
     private LevelConfigDatabase levelDatabase;
-    
-    [Header("POPUP SETTINGS")]
-    [SerializeField] private GameObject popupPanel;
+
+    [Header("POPUP SETTINGS")] [SerializeField]
+    private GameObject popupPanel;
+
     [SerializeField] private TextMeshProUGUI popupText;
     [SerializeField] private CanvasGroup popupCanvasGroup;
     [SerializeField] private float popupDuration = 1.5f;
-    
+
     [SerializeField] private Transform backgroundContainer;
     private GameObject currentBackgroundInstance;
 
@@ -54,6 +57,14 @@ public class LevelManager : MonoBehaviour
     private float currentTime;
     private float currentPinataHP;
     private bool isLevelRunning = false;
+
+    public static LevelManager Instance { get; private set; }
+    private List<GameObject> activeCoinParticles = new();
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     public void Initialize()
     {
@@ -88,7 +99,7 @@ public class LevelManager : MonoBehaviour
             StartLevel();
         }
     }
-    
+
     private bool isStartingLevel = false;
 
     private void StartLevel()
@@ -104,24 +115,21 @@ public class LevelManager : MonoBehaviour
         InitializePinata(config.pinataHP);
         SetHealthPacks();
         InitHPBar(config.pinataHP);
-        
-        StartCoroutine(ShowPopup($"Level {GameStateManager.Instance.CurrentLevel}", () =>
-        {
-            BeginLevel(config);
-        }));
 
+        StartCoroutine(ShowPopup($"Level {GameStateManager.Instance.CurrentLevel}", () => { BeginLevel(config); }));
     }
-    
+
     private void BeginLevel(LevelConfig config)
     {
         _swipeInput?.Initialize(currentPinataController);
 
         SetTimer(config);
+        ShowTimerUI();
         isLevelRunning = true;
 
         GameStateManager.Instance.SetGameState(GameState.Playing);
     }
-    
+
 
     private void SetTimer(LevelConfig config)
     {
@@ -143,7 +151,7 @@ public class LevelManager : MonoBehaviour
 
         var levelBonus = Mathf.FloorToInt(GameStateManager.Instance.CurrentLevel / 3f);
         PlayerStatsManager.Instance.stats.coinsPerHit += levelBonus;
-        
+
         if (currentBackgroundInstance != null)
             Destroy(currentBackgroundInstance);
 
@@ -152,7 +160,7 @@ public class LevelManager : MonoBehaviour
             currentBackgroundInstance = Instantiate(config.backgroundPrefab, backgroundContainer);
             currentBackgroundInstance.transform.localPosition = Vector3.zero;
         }
-        
+
         spawnMinDelay = config.healthPackMinDelay;
         spawnMaxDelay = config.healthPackMaxDelay;
 
@@ -236,9 +244,6 @@ public class LevelManager : MonoBehaviour
     {
         isStartingLevel = false;
         if (!isLevelRunning) return;
-        
-        GameStateManager.Instance.CurrentLevel++;
-        PlayerStatsManager.Instance.SaveProgress();
 
         if (healthPackRoutine != null)
         {
@@ -246,16 +251,26 @@ public class LevelManager : MonoBehaviour
             healthPackRoutine = null;
         }
 
+        HideTimerUI();
+
         foreach (var healthPack in healthPacks)
         {
             ObjectPool.Instance.ReturnToPool("HealthPack", healthPack);
         }
+
+        foreach (var psGO in activeCoinParticles)
+        {
+            ObjectPool.Instance.ReturnToPool("Coin", psGO);
+        }
+
+        activeCoinParticles.Clear();
 
         healthPacks.Clear();
 
         currentPinataController.OnPinyataHit -= OnPinataControllerHit;
 
         isLevelRunning = false;
+
         Destroy(currentPinataController.gameObject);
 
         string resultText = currentTime <= 0 ? "TIME RAN OUT" : "YOU WIN";
@@ -267,10 +282,26 @@ public class LevelManager : MonoBehaviour
             {
                 GameStateManager.Instance.CurrentLevel++;
                 PlayerStatsManager.Instance.SaveProgress();
+                confettiRoutine = StartCoroutine(SpawnConfettiDuringUpgrade());
             }
 
             GameStateManager.Instance.SetGameState(GameState.Upgrading);
         }));
+    }
+
+    private void ShowTimerUI()
+    {
+        timerCanvasGroup.alpha = 0f;
+        timerText.rectTransform.localScale = Vector3.zero;
+
+        timerCanvasGroup.DOFade(1f, 0.3f);
+        timerText.rectTransform.DOScale(1f, 0.4f).SetEase(Ease.OutBack);
+    }
+
+    private void HideTimerUI()
+    {
+        timerCanvasGroup.DOFade(0f, 0.2f);
+        timerText.rectTransform.DOScale(0f, 0.3f).SetEase(Ease.InBack);
     }
 
     private void UpdateTimerUI()
@@ -302,7 +333,7 @@ public class LevelManager : MonoBehaviour
             timerText.transform.localScale = Vector3.one;
         }
     }
-    
+
     private IEnumerator ShowPopup(string message, System.Action onComplete = null)
     {
         popupText.text = message;
@@ -322,5 +353,98 @@ public class LevelManager : MonoBehaviour
                 onComplete?.Invoke();
             });
     }
+
+    public void SpawnCoins(int amount, Vector3 pos)
+    {
+        for (int i = 0; i < amount; i++)
+        {
+            var coinGO = ObjectPool.Instance.GetFromPool("Coin", pos, Quaternion.identity);
+            var ps = coinGO.GetComponent<ParticleSystem>();
+
+            if (ps != null)
+            {
+                ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+                ps.Play();
+                activeCoinParticles.Add(coinGO);
+                StartCoroutine(ReturnParticleToPoolAfter(ps, "Coin",
+                    ps.main.duration + ps.main.startLifetime.constantMax));
+            }
+        }
+    }
+
+    private IEnumerator ReturnParticleToPoolAfter(ParticleSystem ps, string poolKey, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        if (ps != null && ps.gameObject.activeInHierarchy)
+        {
+            ObjectPool.Instance.ReturnToPool(poolKey, ps.gameObject);
+        }
+    }
     
+    public void PlayConfettiBurst(Vector3 center)
+    {
+        var burstCount = 6; 
+        var radius = 3f;
+
+        for (int i = 0; i < burstCount; i++)
+        {
+            Vector2 offset = Random.insideUnitCircle * radius;
+            Vector3 spawnPos = center + new Vector3(offset.x, offset.y, 0f);
+
+            var confetti = ObjectPool.Instance.GetFromPool("Confetti", spawnPos, Quaternion.identity);
+            var ps = confetti.GetComponent<ParticleSystem>();
+            if (ps != null)
+            {
+                ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+                ps.Play();
+
+                float delay = ps.main.duration + ps.main.startLifetime.constantMax;
+                StartCoroutine(ReturnParticleToPoolAfter(ps, "Confetti", delay));
+            }
+        }
+    }
+
+
+    private Coroutine confettiRoutine;
+
+    private IEnumerator SpawnConfettiDuringUpgrade()
+    {
+        var upgradeDuration = 999f;
+        var screenBounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
+
+        while (true)
+        {
+            yield return new WaitForSeconds(Random.Range(0.3f, 0.8f));
+
+            Vector3 spawnPos = new Vector3(
+                Random.Range(-screenBounds.x, screenBounds.x),
+                Random.Range(-screenBounds.y, screenBounds.y),
+                0f
+            );
+
+            var confetti = ObjectPool.Instance.GetFromPool("Confetti", spawnPos, Quaternion.identity);
+            var ps = confetti.GetComponent<ParticleSystem>();
+            if (ps != null)
+            {
+                ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+                ps.Play();
+
+                float delay = ps.main.duration + ps.main.startLifetime.constantMax;
+                StartCoroutine(ReturnParticleToPoolAfter(ps, "Confetti", delay));
+            }
+        }
+    }
+    
+    public void StopConfetti()
+    {
+        if (confettiRoutine != null)
+        {
+            StopCoroutine(confettiRoutine);
+            confettiRoutine = null;
+        }
+    }
+
+    public bool IsConfettiRunning() => confettiRoutine != null;
+
 }

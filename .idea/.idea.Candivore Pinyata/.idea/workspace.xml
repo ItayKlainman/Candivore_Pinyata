@@ -6,8 +6,17 @@
   <component name="ChangeListManager">
     <list default="true" id="c4be34af-ede2-4008-92ce-c01ebb46d480" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Candivore Pinyata/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Candivore Pinyata/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ChatGPT Image May 6, 2025, 10_53_53 PM.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ChatGPT Image May 6, 2025, 10_53_53 PM.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ChatGPT Image May 6, 2025, 11_04_29 PM.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ChatGPT Image May 6, 2025, 11_04_29 PM.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/New Material.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/New Material.mat.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Coinfetti.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Coinfetti.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/MainScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MainScene.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/LevelManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/LevelManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PinyataController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PinyataController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UpgradeUIManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UpgradeUIManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/TextMesh Pro/Examples &amp; Extras/Resources/Fonts &amp; Materials/Bangers SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TextMesh Pro/Examples &amp; Extras/Resources/Fonts &amp; Materials/Bangers SDF.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -134,7 +143,7 @@
       <workItem from="1746291400726" duration="15859000" />
       <workItem from="1746435525051" duration="18982000" />
       <workItem from="1746528812102" duration="79000" />
-      <workItem from="1746528910264" duration="20764000" />
+      <workItem from="1746528910264" duration="25661000" />
     </task>
     <servers />
   </component>

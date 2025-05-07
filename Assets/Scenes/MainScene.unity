@@ -1364,6 +1364,7 @@ GameObject:
   - component: {fileID: 897508694}
   - component: {fileID: 897508693}
   - component: {fileID: 897508692}
+  - component: {fileID: 897508695}
   m_Layer: 5
   m_Name: Timer
   m_TagString: Untagged
@@ -1391,7 +1392,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 00:30
+  m_text: 00:00
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
@@ -1487,6 +1488,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -21.38}
   m_SizeDelta: {x: 225.5, y: 56.3757}
   m_Pivot: {x: 0.5, y: 1}
+--- !u!225 &897508695
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 897508691}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &898810721
 GameObject:
   m_ObjectHideFlags: 0
@@ -1540,6 +1553,9 @@ MonoBehaviour:
     initialSize: 20
   - key: Text
     prefab: {fileID: 2438641660433767754, guid: 0271fd4d025d2e5488fecd6e079e94a2, type: 3}
+    initialSize: 10
+  - key: Confetti
+    prefab: {fileID: 5193735793742720267, guid: faa9a5a07c044114787243c3001b07a9, type: 3}
     initialSize: 10
 --- !u!1 &910456910
 GameObject:
@@ -1960,6 +1976,7 @@ MonoBehaviour:
   _healthText: {fileID: 467554672}
   levelCounter: {fileID: 809727811}
   coinUIController: {fileID: 1286778782}
+  timerCanvasGroup: {fileID: 897508695}
   healthPackPrefab: {fileID: 261562961019252343, guid: 4c84a8a6372b9584b8b8efce71a1f90a, type: 3}
   healthPackSpawnPoints:
   - {fileID: 910456911}
@@ -2922,6 +2939,30 @@ PrefabInstance:
     - target: {fileID: 3884697325148878497, guid: dcbe6f59ca039c246b8ebaf0c9463b9e, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4151340110175905600, guid: dcbe6f59ca039c246b8ebaf0c9463b9e, type: 3}
+      propertyPath: m_fontSize
+      value: 25.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4151340110175905600, guid: dcbe6f59ca039c246b8ebaf0c9463b9e, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 25.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4178037195251723792, guid: dcbe6f59ca039c246b8ebaf0c9463b9e, type: 3}
+      propertyPath: m_fontSize
+      value: 25.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4178037195251723792, guid: dcbe6f59ca039c246b8ebaf0c9463b9e, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 25.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5589407531802366268, guid: dcbe6f59ca039c246b8ebaf0c9463b9e, type: 3}
+      propertyPath: m_fontSize
+      value: 25.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5589407531802366268, guid: dcbe6f59ca039c246b8ebaf0c9463b9e, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 25.5
       objectReference: {fileID: 0}
     - target: {fileID: 6834368399257310214, guid: dcbe6f59ca039c246b8ebaf0c9463b9e, type: 3}
       propertyPath: m_Name
