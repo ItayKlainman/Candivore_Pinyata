@@ -13,6 +13,10 @@ public class FloatingText : MonoBehaviour
         text.text = content;
         text.color = color;
         transform.position = position;
+        
+        text.sortingLayerID = SortingLayer.NameToID("UI");
+        text.sortingOrder = 100;
+
 
         Sequence seq = DOTween.Sequence();
         seq.Join(transform.DOMoveY(position.y + floatDistance, duration).SetEase(Ease.OutCubic));

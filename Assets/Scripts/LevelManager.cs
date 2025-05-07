@@ -113,6 +113,7 @@ public class LevelManager : MonoBehaviour
 
         var config = SetLevelData();
         InitializePinata(config.pinataHP);
+
         SetHealthPacks();
         InitHPBar(config.pinataHP);
 
@@ -122,10 +123,10 @@ public class LevelManager : MonoBehaviour
     private void BeginLevel(LevelConfig config)
     {
         _swipeInput?.Initialize(currentPinataController);
-
+        isLevelRunning = true;
         SetTimer(config);
         ShowTimerUI();
-        isLevelRunning = true;
+
 
         GameStateManager.Instance.SetGameState(GameState.Playing);
     }
@@ -175,32 +176,39 @@ public class LevelManager : MonoBehaviour
         currentPinataController.Heal(amount);
         Debug.Log($"Pinata healed for {amount}!");
     }
-
+    
     private void InitializePinata(float hp)
     {
+        if (currentPinataController != null)
+        {
+            Destroy(currentPinataController.gameObject);
+            currentPinataController = null;
+        }
+
         var pinataGO = Instantiate(pinataPrefab, pinataSpawnPoint.position, Quaternion.identity);
         pinataGO.transform.SetParent(pinataSpawnPoint.transform.parent);
         currentPinataHP = hp;
 
         currentPinataController = pinataGO.GetComponent<PinyataController>();
-        currentPinataController.gameObject.GetComponent<HingeJoint2D>().connectedBody = lastRopeSegmentRB;
+        currentPinataController.GetComponent<HingeJoint2D>().connectedBody = lastRopeSegmentRB;
 
         currentPinataController.Initialize(hp, OnPinataBroken);
         currentPinataController.gameObject.SetActive(true);
         currentPinataController.OnPinyataHit += OnPinataControllerHit;
     }
 
+
     private IEnumerator HealthPackSpawner()
     {
         var spawnedCount = 0;
         healthPacks = new List<GameObject>();
 
-        while (isLevelRunning && spawnedCount < maxHealthPacksPerLevel)
+        while (isStartingLevel && spawnedCount < maxHealthPacksPerLevel)
         {
             var delay = Random.Range(spawnMinDelay, spawnMaxDelay);
             yield return new WaitForSeconds(delay);
 
-            if (!isLevelRunning) yield break;
+            if (!isStartingLevel) yield break;
 
             var index = Random.Range(0, healthPackSpawnPoints.Length);
             var spawnPoint = healthPackSpawnPoints[index];
@@ -214,7 +222,7 @@ public class LevelManager : MonoBehaviour
     {
         yield return null;
 
-        if (!isLevelRunning) yield break;
+        if (!isStartingLevel) yield break;
 
         var pack = ObjectPool.Instance.GetFromPool("HealthPack", spawnPoint.position, Quaternion.identity);
         pack.transform.SetParent(spawnPoint);
@@ -271,9 +279,7 @@ public class LevelManager : MonoBehaviour
         currentPinataController.OnPinyataHit -= OnPinataControllerHit;
 
         isLevelRunning = false;
-
-        //Destroy(currentPinataController.gameObject);
-
+        
         string resultText = currentTime <= 0 ? "TIME RAN OUT" : "YOU WIN";
         bool won = currentTime > 0;
 

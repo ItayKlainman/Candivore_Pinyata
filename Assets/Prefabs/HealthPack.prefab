@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 999
-  m_Sprite: {fileID: 21300000, guid: 31e43bb27df9fb74db72b4bb1f0f2c99, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 04c041da5a257e64f8c1561e681d81c8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -195,3 +195,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healAmount: 20
   lifeTime: 3.5
+  healTextColor: {r: 0.33610716, g: 0.7830189, b: 0.33610716, a: 1}
