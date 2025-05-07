@@ -87,13 +87,19 @@ public class UpgradeUIManager : MonoBehaviour
     private void TryUpgrade(UpgradeType type)
     {
         var cost = PlayerStatsManager.Instance.stats.GetUpgradeCost(type);
-        PlayerStatsManager.Instance.ApplyUpgrade(type, cost);
+        if (PlayerStatsManager.Instance.stats.totalCoins >= cost)
+        {
+            PlayerStatsManager.Instance.ApplyUpgrade(type, cost);
+            FeedbackManager.Play("Upgrade", FeedbackStrength.Medium);
+        }
+        else
+        {
+            FeedbackManager.Play("Error", FeedbackStrength.Light);
+        }
 
-        FeedbackManager.Play("Upgrade", FeedbackStrength.Medium); // Feedback on successful upgrade
         UpdateUI();
     }
-
-
+    
     private void UpdateUI()
     {
         var stats = PlayerStatsManager.Instance.stats;

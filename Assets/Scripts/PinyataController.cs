@@ -32,6 +32,9 @@ public class PinyataController : MonoBehaviour
     [SerializeField] private float partForce = 3f;
     [SerializeField] private float partTorque = 20f;
     [SerializeField] private float partLifetime = 2f;
+    
+    [Header("Hit Sounds")]
+    [SerializeField] private string[] randomHitSFXNames;
 
     public delegate void PinyataHit(float currentHp, float maxHp);
     public event PinyataHit OnPinyataHit;
@@ -66,9 +69,15 @@ public class PinyataController : MonoBehaviour
         }
         else
         {
-            FeedbackManager.Play("Hit", FeedbackStrength.Light, 0.8f, 0.7f);
+            if (randomHitSFXNames != null && randomHitSFXNames.Length > 0)
+            {
+                string clipName = randomHitSFXNames[Random.Range(0, randomHitSFXNames.Length)];
+                FeedbackManager.Play(clipName, FeedbackStrength.Light, 0.6f, 0.3f);
+            }
+            
             CameraShakeManager.Instance.Shake(0.1f, 0.2f);
         }
+        
 
         ShowTextEffect(damage, isCrit);
 

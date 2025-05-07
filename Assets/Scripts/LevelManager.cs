@@ -42,10 +42,13 @@ public class LevelManager : MonoBehaviour
 
     [Header("POPUP SETTINGS")] [SerializeField]
     private GameObject popupPanel;
-
     [SerializeField] private TextMeshProUGUI popupText;
     [SerializeField] private CanvasGroup popupCanvasGroup;
     [SerializeField] private float popupDuration = 1.5f;
+    
+    [Header("End Game")]
+    [SerializeField] private GameObject endGamePopupPanel;
+    [SerializeField] private CanvasGroup endGamePopupCanvasGroup;
 
     [SerializeField] private Transform backgroundContainer;
     private GameObject currentBackgroundInstance;
@@ -116,7 +119,7 @@ public class LevelManager : MonoBehaviour
 
         SetHealthPacks();
         InitHPBar(config.pinataHP);
-        FeedbackManager.Play("LevelIntro", FeedbackStrength.None);
+        FeedbackManager.Play("LevelIntro", FeedbackStrength.None, 0.6f);
         StartCoroutine(ShowPopup($"Level {GameStateManager.Instance.CurrentLevel}", () => { BeginLevel(config); }));
     }
 
@@ -126,8 +129,7 @@ public class LevelManager : MonoBehaviour
         isLevelRunning = true;
         SetTimer(config);
         ShowTimerUI();
-
-
+        
         GameStateManager.Instance.SetGameState(GameState.Playing);
     }
 
@@ -164,10 +166,10 @@ public class LevelManager : MonoBehaviour
 
         spawnMinDelay = config.healthPackMinDelay;
         spawnMaxDelay = config.healthPackMaxDelay;
+        maxHealthPacksPerLevel = config.MaxHealthPacks;
 
         return config;
     }
-
 
     private void HealPinata(float amount)
     {
@@ -280,8 +282,17 @@ public class LevelManager : MonoBehaviour
 
         isLevelRunning = false;
         
-        string resultText = currentTime <= 0 ? "TIME RAN OUT" : "YOU WIN";
+        string resultText = currentTime <= 0 ? "OUT OF TIME" : "YOU WIN!";
         bool won = currentTime > 0;
+
+        if (won)
+        {
+            FeedbackManager.Play("Tada", FeedbackStrength.None, 0.5f);
+        }
+        else
+        {
+            FeedbackManager.Play("Failed", FeedbackStrength.Medium, 0.5f);
+        }
 
         StartCoroutine(ShowPopup(resultText, () =>
         {
@@ -291,7 +302,13 @@ public class LevelManager : MonoBehaviour
                 PlayerStatsManager.Instance.SaveProgress();
                 confettiRoutine = StartCoroutine(SpawnConfettiDuringUpgrade());
             }
-
+            
+            if (GameStateManager.Instance.CurrentLevel > 12)
+            {
+                StartCoroutine(ShowEndGamePopup());
+                return;
+            }
+            
             GameStateManager.Instance.SetGameState(GameState.Upgrading);
         }));
     }
@@ -372,7 +389,16 @@ public class LevelManager : MonoBehaviour
                 onComplete?.Invoke();
             });
     }
-
+    
+    private IEnumerator ShowEndGamePopup()
+    {
+        endGamePopupPanel.SetActive(true);
+        endGamePopupCanvasGroup.alpha = 0;
+        endGamePopupCanvasGroup.DOFade(1f, 0.5f);
+        endGamePopupCanvasGroup.interactable = true;
+        yield return null;
+    }
+    
     public void SpawnCoins(int amount, Vector3 pos)
     {
         for (int i = 0; i < amount; i++)

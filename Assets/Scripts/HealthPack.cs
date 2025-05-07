@@ -18,6 +18,7 @@ public class HealthPack : MonoBehaviour
         Vector3 spawnPos = transform.position + Vector3.up * 1.2f;
         var floatText = ObjectPool.Instance.GetFromPool("Text", spawnPos, Quaternion.identity);
         floatText.GetComponent<FloatingText>()?.Show($"+{healAmount}", healTextColor, spawnPos);
+        FeedbackManager.Play("Health", FeedbackStrength.Light, 0.7f);
 
         ObjectPool.Instance.ReturnToPool("HealthPack", gameObject);
     }

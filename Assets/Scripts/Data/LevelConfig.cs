@@ -11,7 +11,6 @@ public class LevelConfig : ScriptableObject
     [Header("Health Pack Settings")]
     public float healthPackMinDelay = 5f;
     public float healthPackMaxDelay = 10f;
+    public int MaxHealthPacks = 5;
 
-
-    // Optional: Add pinata prefab override, music, spawn pattern, etc.
 }

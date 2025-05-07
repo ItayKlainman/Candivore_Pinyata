@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelName: Level 1
   backgroundPrefab: {fileID: 4378580939449558871, guid: c2930745bbe30054a84c44e4f8fb6124, type: 3}
-  pinataHP: 520
+  pinataHP: 1100
   timeLimit: 20
   healthPackMinDelay: 2.5
   healthPackMaxDelay: 4
+  MaxHealthPacks: 10

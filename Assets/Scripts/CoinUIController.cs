@@ -56,7 +56,7 @@ public class CoinUIController : MonoBehaviour
         
         var rect = instance.GetComponent<RectTransform>();
 
-        rect.position = icon.position + new Vector3(0, -60f, 0); 
+        rect.position = icon.position + new Vector3(0, -80f, 0); 
 
         var text = instance.GetComponent<TextMeshProUGUI>();
         var canvasGroup = instance.GetComponent<CanvasGroup>();

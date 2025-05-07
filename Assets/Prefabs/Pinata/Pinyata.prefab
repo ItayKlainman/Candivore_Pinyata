@@ -239,6 +239,13 @@ MonoBehaviour:
   partForce: 3
   partTorque: 20
   partLifetime: 2
+  randomHitSFXNames:
+  - Hit1
+  - Hit2
+  - Hit3
+  - Hit4
+  - Hit5
+  - Hit6
 --- !u!95 &5203086699216253577
 Animator:
   serializedVersion: 5
